@@ -1,8 +1,8 @@
 class TankGame extends PixelGame{
     constructor(id, grid) {
         super(id, grid)
-
         this._initTanks()
+        this.bullets = []
         this._initTimer()
     }
 
@@ -18,8 +18,14 @@ class TankGame extends PixelGame{
     _initTimer() {
         this.timer = Timer.new(() => {
             this.clear()
-            this.tanks[0].move()
-            this.tanks[0].draw()
+            for (let tank of this.tanks) {
+                tank.move()
+                tank.draw()
+            }
+            for (let bullet of this.bullets) {
+                bullet.move()
+                bullet.draw()
+            }
         }, Config.INTERVAL)
     }
 }

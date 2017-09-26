@@ -15,4 +15,7 @@ const KeyAction =  {
         if(tankGame.timer.pause == true) tankGame.start()
         else if(tankGame.timer.pause == false) tankGame.pause()
     },
+    'f': tankGame => {
+        tankGame.tanks[0].fire()
+    }
 }
