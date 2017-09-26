@@ -1,3 +1,7 @@
 #game {
     border: 1px solid black;
 }
+
+#debug {
+    visibility: hidden;
+}
