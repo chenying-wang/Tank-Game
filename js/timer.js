@@ -21,7 +21,7 @@ class Timer {
     }
 
     _run() {
-        if(this.pause == false) {
+        if (this.pause == false) {
             this.run()
             window.setTimeout(() => {
                 this._run()
