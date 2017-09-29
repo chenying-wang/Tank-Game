@@ -25,6 +25,7 @@ class PixelGame {
     _initGrid(grid) {
         this.unitWidth = this.total.x / grid.x
         this.unitHeight = this.total.y / grid.y
+        this.origin = Entity.new(this, Vector.new(0, 0))
     }
 
     _initTimer() {
@@ -52,7 +53,7 @@ class PixelGame {
 
         const origin = Vector.new(
             (position.x + 0.5) * this.unitWidth,
-            this.total.y - (position.y + 1.5) * this.unitHeight
+            this.total.y - (position.y + 0.5) * this.unitHeight
         )
         this.ctx.translate(origin.x, origin.y)
         this.ctx.rotate(angle * Math.PI / 180)
@@ -63,7 +64,7 @@ class PixelGame {
             for(let j = 0; j < size.y; j++) {
                 offsetX = i - size.x / 2
                 offsetY = j - size.y / 2
-                if(style === undefined || style[j][i] !== 0) {
+                if(style === undefined || style[j][i] != 0) {
                     this.ctx.fillRect(
                         offsetX * this.unitWidth,
                         offsetY * this.unitHeight,

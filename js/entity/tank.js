@@ -6,14 +6,15 @@ class Tank extends Entity {
 
         this.id = id
         this.patterns.push(TankPattern.new(this))
+        if(this.id == 'player') {
+            this.patterns.push(CooldownIndicator.new(this, Vector.new(16, 16), this.game.origin))
+        }
+        this.patterns.push(HpIndicator.new(this, Vector.new(0, Math.floor(Config.TANK_HEIGHT / 1.5))))
 
         this.size.set(Config.TANK_WIDTH, Config.TANK_HEIGHT)
         this.speed.set(0, Config.TANK_SPEED)
         this.hp = Config.TANK_HP
         this.cd = 0
-        if(this.id == 'player') {
-            this.patterns.push(CooldownIndicator.new(this))
-        }
     }
 
     cooldown() {

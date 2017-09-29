@@ -9,7 +9,6 @@ class Entity {
         this.patterns = []
         this.size = Vector.new(1, 1)
         this.speed = Vector.new()
-        this.color = Config.ENTITY_COLOR
     }
 
     static new(...args) {

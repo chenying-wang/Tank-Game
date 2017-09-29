@@ -13,7 +13,7 @@ const debugDraw = () => {
     const y = Number.parseInt(document.querySelector('#y').value)
     const w = Number.parseInt(document.querySelector('#w').value)
     const h = Number.parseInt(document.querySelector('#h').value)
-    window.debugTankGame.draw(Vector.new(x, y), 'rgb(255, 255, 255)', Vector.new(w, h))
+    window.debugTankGame.drawRect(Vector.new(x, y), 'rgb(255, 255, 255)', Vector.new(w, h))
 }
 
 const debugDrawArc = () => {

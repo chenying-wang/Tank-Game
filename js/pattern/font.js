@@ -1,13 +1,15 @@
 "use strict"
 
 class Font extends Pattern {
-    constructor(parent) {
-        super(parent)
+    constructor(parent, offset = Vector.new(0, 0), anchor = parent) {
+        super(parent, offset, anchor)
 
         this.text = ''
     }
 
     _drawPattern() {
+        super._drawPattern()
+
         this.game.drawFont(this.position, this.text)
     }
 }

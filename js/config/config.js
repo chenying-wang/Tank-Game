@@ -19,8 +19,8 @@ const Config = {
     GRID_X: 400,
     GRID_Y: 225,
 
-    // entity
-    ENTITY_COLOR: 'rgb(255, 255, 255)',
+    // pattern
+    PATTERN_COLOR: 'rgb(255, 255, 255)',
 
     // tank
     TANK_NUMBER: 3,
@@ -29,7 +29,7 @@ const Config = {
     TANK_SPEED: 20,
     TANK_COLOR: 'rgb(255, 255, 255)',
     TANK_HP: 10,
-    TANK_COOLDOWN: 2,
+    TANK_COOLDOWN: 1,
 
     // bullet
     BULLET_WIDTH: 1,
@@ -39,7 +39,12 @@ const Config = {
     BULLET_ATTACK: 1,
 
     // cd
-    CD_COLOR: 'rgb(0, 255, 0)'
+    CD_COLOR: 'rgb(0, 255, 255)',
+
+    // hp
+    HP_HEIGHT: 2,
+    HP_COLOR: 'rgb(255, 0, 0)',
+    HP_COLOR_REMAIN: 'rgb(0, 255, 0)'
 }
 
 configInit()
