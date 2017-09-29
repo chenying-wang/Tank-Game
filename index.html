@@ -11,7 +11,7 @@
 
     <!-- config -->
     <script src="js/config/config.js" async="async"></script>
-    <script src="js/config/key_action.js" async="async"></script>
+    <script src="js/config/key_actions.js" async="async"></script>
 
     <!-- entity -->
     <script src="js/entity/entity.js"></script>
@@ -46,8 +46,16 @@
 </head>
 
 <body>
-    <h1>Tank Game</h1>
-    <canvas id="game" width="800" height="450"></canvas>
+    <h1 id="title">Tank Game</h1>
+
+    <div id="content">
+        <canvas id="game" width="800" height="450"></canvas>
+        <div id="discription">
+            <input type="button" value="Toggle Discription" onclick="toggleDiscription()" />
+            <div id="discription-content" style="visibility: visible;"></div>
+        </div>
+    </div>
+
     <div id="debug">
         <p id='pause'></p>
         x: <input id="x" /> <br />
