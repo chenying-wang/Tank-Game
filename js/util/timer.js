@@ -1,3 +1,5 @@
+"use strict"
+
 class Timer {
     constructor(run, interval) {
         this.pause = true

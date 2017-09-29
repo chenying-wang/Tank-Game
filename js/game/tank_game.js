@@ -1,3 +1,5 @@
+"use strict"
+
 class TankGame extends PixelGame{
     constructor(id, grid) {
         super(id, grid)
@@ -8,12 +10,18 @@ class TankGame extends PixelGame{
 
     _initTanks() {
         this.tanks = []
-        for(let i = 0; i < 3; i++) {
+        for(let i = 0; i < Config.TANK_NUMBER; i++) {
             const initX = Math.floor(Config.GRID_X / 2 + i * 100 - 100)
             const initY = Math.floor(Config.GRID_Y / 2)
             const v = Vector.new(initX, initY)
-            const tank = Tank.new(this, v)
-            if(i != 0) tank.speed.setLength(0)
+            let tank
+            if(i != 0) {
+                tank = Tank.new(this, v)
+                tank.speed.setLength(0)
+            } else {
+                tank = Tank.new(this, v, 'player')
+                this.player = TankAgent.new(tank)
+            }
             this.tanks.push(tank)
         }
     }
@@ -40,7 +48,6 @@ class TankGame extends PixelGame{
 
     deleteTank(tank) {
         this.tanks = this.tanks.filter(element => element != tank)
-        log(this.tanks.length)
     }
 
     deleteBullet(bullet) {

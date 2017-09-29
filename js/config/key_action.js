@@ -1,27 +1,32 @@
+"use strict"
+
 const KeyAction =  {
     'KeyW': tankGame => {
-        tankGame.tanks[0].speed.setAngle(Tank.UP)
+        tankGame.player.move(Tank.UP)
     },
     'KeyD': tankGame => {
-        tankGame.tanks[0].speed.setAngle(Tank.RIGHT)
+        tankGame.player.move(Tank.RIGHT)
     },
     'KeyS': tankGame => {
-        tankGame.tanks[0].speed.setAngle(Tank.DOWN)
+        tankGame.player.move(Tank.DOWN)
     },
     'KeyA': tankGame => {
-        tankGame.tanks[0].speed.setAngle(Tank.LEFT)
+        tankGame.player.move(Tank.LEFT)
     },
     'KeyQ': tankGame => {
-        tankGame.tanks[0].speed.setAngle(tankGame.tanks[0].speed.angle() - 10)
+        tankGame.player.move(player.tank.speed.angle() - 10)
     },
     'KeyE': tankGame => {
-        tankGame.tanks[0].speed.setAngle(tankGame.tanks[0].speed.angle() + 10)
+        tankGame.player.move(player.tank.speed.angle() + 10)
+    },
+    'KeyC': () => {
+        Config.DEBUG_COLLIDE = !Config.DEBUG_COLLIDE
     },
     'Space': tankGame => {
         if(tankGame.timer.pause == true) tankGame.start()
         else if(tankGame.timer.pause == false) tankGame.pause()
     },
     'KeyF': tankGame => {
-        tankGame.tanks[0].fire()
+        tankGame.player.fire()
     }
 }

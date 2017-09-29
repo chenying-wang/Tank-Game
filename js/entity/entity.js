@@ -1,7 +1,12 @@
+"use strict"
+
 class Entity {
-    constructor(tankGame, position) {
+    constructor(tankGame, position, id = null) {
         this.game = tankGame
         this.position = position
+        this.id = id
+
+        this.patterns = []
         this.size = Vector.new(1, 1)
         this.speed = Vector.new()
         this.color = Config.ENTITY_COLOR
@@ -16,12 +21,12 @@ class Entity {
     }
 
     draw() {
-        this.game.draw(this.position, this.color, this.size, this.speed.angle())
+        for (let pattern of this.patterns) {
+            pattern.draw()
+        }
     }
 
     collide(entity) {
-        //B.max(x) < A.min(x) || B.min(x) > A.max(x) || B.max(y) < A.min(y) || B.min(y) > A.max(y)
-
         let aAngleRad = this.speed.angle() / 180 * Math.PI
         let aCollideSize = this.size.dot(
             Math.abs(Math.cos(aAngleRad)), Math.abs(Math.sin(aAngleRad)),
@@ -38,15 +43,17 @@ class Entity {
         let bmin = entity.position.minus(bCollideSize.multiply(0.5))
         let bmax = bmin.add(bCollideSize)
 
-        this.game.draw(this.position, 'rgba(0, 0, 255, 10)', aCollideSize)
-        entity.game.draw(entity.position, 'rgba(0, 0, 255, 10)', bCollideSize)
-        entity.game.draw(entity.position, 'rgba(0, 255, 0, 10)')
+        if(Config.DEBUG_COLLIDE == true) {
+            this.game.drawRect(this.position, 'rgba(0, 0, 255, 10)', aCollideSize)
+            entity.game.drawRect(entity.position, 'rgba(0, 0, 255, 10)', bCollideSize)
+            entity.game.drawRect(entity.position, 'rgba(0, 255, 0, 10)')
+        }
 
         if(bmax.x < amin.x || bmin.x > amax.x || bmax.y < amin.y || bmin.y > amax.y) {
             return false
         }
-        this.game.deleteTank(entity)
-        this.game.deleteBullet(this)
+
+        this.collideCallback(entity)
         return true
     }
 }

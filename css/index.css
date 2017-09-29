@@ -1,7 +1,17 @@
+h1 {
+    text-align: center;
+}
+
 #game {
-    border: 1px solid black;
+    margin: 0 auto;
+    border: 1px solid rgb(100, 100, 100);
+    display: block;
 }
 
 #debug {
+    margin: 20px auto;
+    padding: 10px;
+    border: 2px dashed rgb(255, 0, 0);
+    background-color: rgb(255, 230, 230);
     visibility: hidden;
 }

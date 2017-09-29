@@ -1,3 +1,5 @@
+"use strict"
+
 const log = console.log.bind(console)
 
 const debug = tankGame => {
@@ -6,6 +8,7 @@ const debug = tankGame => {
 }
 
 const debugDraw = () => {
+    if(Config.DEBUG_DRAW != true) return
     const x = Number.parseInt(document.querySelector('#x').value)
     const y = Number.parseInt(document.querySelector('#y').value)
     const w = Number.parseInt(document.querySelector('#w').value)
@@ -14,6 +17,7 @@ const debugDraw = () => {
 }
 
 const debugDrawArc = () => {
+    if(Config.DEBUG_DRAW != true) return
     const x = Number.parseInt(document.querySelector('#x').value)
     const y = Number.parseInt(document.querySelector('#y').value)
     const w = Number.parseInt(document.querySelector('#w').value)
@@ -27,9 +31,7 @@ const main = () => {
     })
     mTankGame.start()
     mTankGame.pause()
-    debug(mTankGame)
-}
-
-window.onload = () => {
-    main()
+    if(Config.DEBUG_DRAW == true)  {
+        debug(mTankGame)
+    }
 }

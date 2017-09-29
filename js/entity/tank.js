@@ -1,38 +1,28 @@
+"use strict"
+
 class Tank extends Entity {
-    constructor(tankGame, position) {
+    constructor(tankGame, position, id = null) {
         super(tankGame, position)
+
+        this.id = id
+        this.patterns.push(TankPattern.new(this))
 
         this.size.set(Config.TANK_WIDTH, Config.TANK_HEIGHT)
         this.speed.set(0, Config.TANK_SPEED)
-        this.style = [
-            [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-            [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-            [1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1]
-        ]
-        this.color = Config.TANK_COLOR
+        this.hp = Config.TANK_HP
         this.cd = 0
+        if(this.id == 'player') {
+            this.patterns.push(CooldownIndicator.new(this))
+        }
     }
 
     cooldown() {
-        if(this.cd == 0) return
+        if(this.cd <= 0) return
         this.cd -= 1
     }
 
-    draw() {
-        this.game.draw(this.position, this.color,
-            this.size, this.speed.angle(), this.style)
-    }
-
-    fire() {
-        if(this.cd != 0) return
+    _fire() {
+        if(this.cd > 0) return
         this.cd = Config.TANK_COOLDOWN
 
         let bulletPosition = Vector.new(
@@ -46,5 +36,14 @@ class Tank extends Entity {
         let bullet = Bullet.new(this.game, bulletPosition)
         bullet.speed = Vector.new(this.speed).setLength(Config.BULLET_SPEED)
         this.game.bullets.push(bullet)
+    }
+
+    damage(attack) {
+        this.hp -= attack
+        if(this.hp <= 0) this.clear()
+    }
+
+    clear() {
+        this.game.deleteTank(this)
     }
 }

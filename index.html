@@ -3,25 +3,49 @@
 
 <head>
     <title>Tank Game</title>
+    <meta name="tank game" charset="utf-8" />
     <link type="text/css" rel="stylesheet" href="css/index.css" />
+
+    <!-- agent -->
+    <script src="js/agent/tank_agent.js" async="async"></script>
+
     <!-- config -->
-    <script async src="js/config/config.js"></script>
-    <script async src="js/config/key_action.js"></script>
+    <script src="js/config/config.js" async="async"></script>
+    <script src="js/config/key_action.js" async="async"></script>
+
     <!-- entity -->
     <script src="js/entity/entity.js"></script>
-    <script async src="js/entity/tank.js"></script>
-    <script async src="js/entity/bullet.js"></script>
+    <script src="js/entity/bullet.js" async="async"></script>
+    <script src="js/entity/tank.js" async="async"></script>
+
     <!-- game -->
     <script src="js/game/pixel_game.js"></script>
-    <script async src="js/game/tank_game.js"></script>
+    <script src="js/game/tank_game.js" async="async"></script>
+
+    <!-- pattern -->
+    <script src="js/pattern/pattern.js"></script>
+    <script src="js/pattern/arc.js" async="async"></script>
+    <script src="js/pattern/bullet_pattern.js" async="async"></script>
+    <script src="js/pattern/cooldown_indicator.js" async="async"></script>
+    <script src="js/pattern/font.js" async="async"></script>
+    <script src="js/pattern/tank_pattern.js" async="async"></script>
+
     <!-- util -->
-    <script async src="js/util/vector.js"></script>
-    <script async src="js/util/timer.js"></script>
+    <script src="js/util/timer.js" async="async"></script>
+    <script src="js/util/vector.js" async="async"></script>
+
     <!-- main -->
-    <script async src="js/main.js"></script>
+    <script  src="js/main.js" async="async"></script>
+
+    <script>
+        window.onload = () => {
+            main()
+        }
+    </script>
 </head>
 
 <body>
+    <h1>Tank Game</h1>
     <canvas id="game" width="800" height="450"></canvas>
     <div id="debug">
         <p id='pause'></p>

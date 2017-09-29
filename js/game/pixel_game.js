@@ -1,3 +1,5 @@
+"use strict"
+
 class PixelGame {
     constructor(id, grid) {
         this._initCanvas(id)
@@ -39,47 +41,28 @@ class PixelGame {
         this.timer.stop()
     }
 
-    draw(position, color, size = Vector.new(1, 1), angle = Entity.UP, style = undefined) {
-        if (position.x + size.x < 0 ||
-            position.x > this.total.x ||
-            position.y + size.y < 0 |
-            position.y > this.total.y) {
+    drawRect(position, color, size = Vector.new(1, 1), angle = Entity.UP, style = undefined) {
+        const sizeMax = Math.max(size.x, size.y)
+        if (position.x + sizeMax< 0 ||
+            position.x - sizeMax > Config.GRID_X ||
+            position.y + sizeMax < 0 |
+            position.y - sizeMax > Config.GRID_Y) {
             return
         }
 
-        // TEST
-        // angle = Math.round(angle / 90) * 90 % 360
-        // TEST
-
-        this.ctx.fillStyle = color
         const origin = Vector.new(
             (position.x + 0.5) * this.unitWidth,
             this.total.y - (position.y + 1.5) * this.unitHeight
         )
         this.ctx.translate(origin.x, origin.y)
         this.ctx.rotate(angle * Math.PI / 180)
+        this.ctx.fillStyle = color
 
         let offsetX, offsetY
         for(let i = 0; i < size.x; i++) {
             for(let j = 0; j < size.y; j++) {
                 offsetX = i - size.x / 2
                 offsetY = j - size.y / 2
-                // if(angle == Entity.UP) {
-                //     offsetX = i
-                //     offsetY = j
-                // }
-                // else if(angle == Entity.RIGHT) {
-                //     offsetX = size.y - j - 1
-                //     offsetY = i
-                // }
-                // else if(angle == Entity.DOWN) {
-                //     offsetX = size.x - i - 1
-                //     offsetY = size.y - j - 1
-                // }
-                // else if (angle == Entity.LEFT) {
-                //     offsetX = j
-                //     offsetY = size.x - i -1
-                // }
                 if(style === undefined || style[j][i] !== 0) {
                     this.ctx.fillRect(
                         offsetX * this.unitWidth,
@@ -109,6 +92,20 @@ class PixelGame {
         this.ctx.beginPath()
         this.ctx.arc(x, y, radius, start, start + angle)
         this.ctx.stroke()
+    }
+
+    drawFont(position, text, font = '30px') {
+        // log('draw font')
+        let x = position.x
+        let y = position.y
+        x *= this.unitWidth
+        y = this.total.y - y * this.unitHeight
+
+        this.ctx.fillStyle = Config.CD_COLOR
+        this.ctx.font = '12px'
+        this.ctx.textBaseline = 'middle'
+        this.ctx.textAlign = 'center'
+        this.ctx.fillText(text, x, y)
     }
 
     clear() {

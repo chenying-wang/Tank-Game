@@ -1,6 +1,8 @@
+"use strict"
+
 class Vector {
     constructor(arg1 = 0, arg2 = 0) {
-        if (typeof arg1 === 'object') {
+        if (arg1 instanceof Vector) {
             this.x = arg1.x
             this.y = arg1.y
         } else {
@@ -13,9 +15,14 @@ class Vector {
         return new this(...args)
     }
 
-    set(x = 0, y = 0) {
-        this.x = x
-        this.y = y
+    set(arg1 = 0, arg2 = 0) {
+        if (arg1 instanceof Vector) {
+            this.x = arg1.x
+            this.y = arg1.y
+        } else {
+            this.x = arg1
+            this.y = arg2
+        }
         return this
     }
 
