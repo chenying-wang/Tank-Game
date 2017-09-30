@@ -39,14 +39,14 @@ const KeyActions = {
     'KeyQ': {
         'discription': '[Experimental] Yaw left',
         'keydown': tankGame => {
-            tankGame.player.move(player.tank.speed.angle() - 10)
+            tankGame.player.move(tankGame.player.tank.speed.angle() - 10)
         }
     },
 
     'KeyE': {
         'discription': '[Experimental] Yaw right',
         'keydown': tankGame => {
-            tankGame.player.move(player.tank.speed.angle() + 10)
+            tankGame.player.move(tankGame.player.tank.speed.angle() + 10)
         }
     },
 
