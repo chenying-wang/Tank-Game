@@ -6,7 +6,7 @@ class Tank extends Entity {
 
         this.id = id
         this.patterns.push(TankPattern.new(this))
-        if(this.id == 'player') {
+        if (this.id == 'player') {
             this.patterns.push(CooldownIndicator.new(this, Vector.new(16, 16), this.game.origin))
         }
         this.patterns.push(HpIndicator.new(this, Vector.new(0, Math.floor(Config.TANK_HEIGHT / 1.5))))
@@ -18,12 +18,12 @@ class Tank extends Entity {
     }
 
     cooldown() {
-        if(this.cd <= 0) return
+        if (this.cd <= 0) return
         this.cd -= 1
     }
 
     _fire() {
-        if(this.cd > 0) return
+        if (this.cd > 0) return
         this.cd = Config.TANK_COOLDOWN
 
         let bulletPosition = Vector.new(
@@ -31,7 +31,7 @@ class Tank extends Entity {
             this.position.y
         )
         const offset = Vector.new(this.speed).
-            setLength((this.size.y + Config.BULLET_HEIGHT + 1) / 2)
+        setLength((this.size.y + Config.BULLET_HEIGHT + 1) / 2)
         bulletPosition.addEqual(offset)
 
         let bullet = Bullet.new(this.game, bulletPosition)
@@ -41,7 +41,7 @@ class Tank extends Entity {
 
     damage(attack) {
         this.hp -= attack
-        if(this.hp <= 0) this.clear()
+        if (this.hp <= 0) this.clear()
     }
 
     clear() {

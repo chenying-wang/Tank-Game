@@ -1,6 +1,6 @@
 "use strict"
 
-const KeyActions =  {
+const KeyActions = {
     'KeyW': {
         'discription': 'Move up',
         'keydown': tankGame => {
@@ -53,8 +53,8 @@ const KeyActions =  {
     'Space': {
         'discription': 'Pause',
         'keydown': tankGame => {
-            if(tankGame.timer.pause == true) tankGame.start()
-            else if(tankGame.timer.pause == false) tankGame.pause()
+            if (tankGame.timer.pause == true) tankGame.start()
+            else if (tankGame.timer.pause == false) tankGame.pause()
         }
     },
 

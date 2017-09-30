@@ -44,7 +44,7 @@ class PixelGame {
 
     drawRect(position, color, size = Vector.new(1, 1), angle = Entity.UP, style = undefined) {
         const sizeMax = Math.max(size.x, size.y)
-        if (position.x + sizeMax< 0 ||
+        if (position.x + sizeMax < 0 ||
             position.x - sizeMax > Config.GRID_X ||
             position.y + sizeMax < 0 |
             position.y - sizeMax > Config.GRID_Y) {
@@ -60,11 +60,11 @@ class PixelGame {
         this.ctx.fillStyle = color
 
         let offsetX, offsetY
-        for(let i = 0; i < size.x; i++) {
-            for(let j = 0; j < size.y; j++) {
+        for (let i = 0; i < size.x; i++) {
+            for (let j = 0; j < size.y; j++) {
                 offsetX = i - size.x / 2
                 offsetY = j - size.y / 2
-                if(style === undefined || style[j][i] != 0) {
+                if (style === undefined || style[j][i] != 0) {
                     this.ctx.fillRect(
                         offsetX * this.unitWidth,
                         offsetY * this.unitHeight,

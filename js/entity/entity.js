@@ -42,13 +42,13 @@ class Entity {
         let bmin = entity.position.minus(bCollideSize.multiply(0.5))
         let bmax = bmin.add(bCollideSize)
 
-        if(Config.DEBUG_COLLIDE == true) {
+        if (Config.DEBUG_COLLIDE == true) {
             this.game.drawRect(this.position, 'rgba(0, 0, 255, 10)', aCollideSize)
             entity.game.drawRect(entity.position, 'rgba(0, 0, 255, 10)', bCollideSize)
             entity.game.drawRect(entity.position, 'rgba(0, 255, 0, 10)')
         }
 
-        if(bmax.x < amin.x || bmin.x > amax.x || bmax.y < amin.y || bmin.y > amax.y) {
+        if (bmax.x < amin.x || bmin.x > amax.x || bmax.y < amin.y || bmin.y > amax.y) {
             return false
         }
 

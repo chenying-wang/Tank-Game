@@ -11,7 +11,7 @@ class BulletPattern extends Pattern {
 
     _drawPattern() {
         super._drawPattern()
-        
+
         this.game.drawRect(this.position, this.color, this.size, this.parent.speed.angle())
     }
 }

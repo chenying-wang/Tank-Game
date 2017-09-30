@@ -8,7 +8,7 @@ const debug = tankGame => {
 }
 
 const debugDraw = () => {
-    if(Config.DEBUG_DRAW != true) return
+    if (Config.DEBUG_DRAW != true) return
     const x = Number.parseInt(document.querySelector('#x').value)
     const y = Number.parseInt(document.querySelector('#y').value)
     const w = Number.parseInt(document.querySelector('#w').value)
@@ -17,7 +17,7 @@ const debugDraw = () => {
 }
 
 const debugDrawArc = () => {
-    if(Config.DEBUG_DRAW != true) return
+    if (Config.DEBUG_DRAW != true) return
     const x = Number.parseInt(document.querySelector('#x').value)
     const y = Number.parseInt(document.querySelector('#y').value)
     const w = Number.parseInt(document.querySelector('#w').value)
@@ -26,9 +26,9 @@ const debugDrawArc = () => {
 
 const setDiscription = () => {
     const div = document.querySelector('#discription-content')
-    if(div == null) return
+    if (div == null) return
     for (let action in KeyActions) {
-        let discription = "[" + action +"]"+ " : " + KeyActions[action].discription
+        let discription = "[" + action + "]" + " : " + KeyActions[action].discription
         div.innerHTML += "<p>" + discription + "</p>"
     }
 }
@@ -36,13 +36,11 @@ const setDiscription = () => {
 const toggleDiscription = () => {
     const div = document.querySelector('#discription-content')
     log(div.style.visibility)
-    if(div.style.visibility == 'visible') {
+    if (div.style.visibility == 'visible') {
         div.style.visibility = 'hidden'
-    }
-    else if(div.style.visibility == 'hidden') {
+    } else if (div.style.visibility == 'hidden') {
         div.style.visibility = 'visible'
-    }
-    else {
+    } else {
         div.style.visibility = 'visible'
     }
 }
@@ -58,7 +56,7 @@ const main = () => {
         KeyActions[event.code]['keydown'] && KeyActions[event.code]['keydown'](mTankGame)
     })
 
-    if(Config.DEBUG_DRAW == true)  {
+    if (Config.DEBUG_DRAW == true) {
         debug(mTankGame)
     }
 }
