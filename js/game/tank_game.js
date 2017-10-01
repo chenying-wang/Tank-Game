@@ -1,8 +1,8 @@
 "use strict"
 
 class TankGame extends PixelGame {
-    constructor(id, grid) {
-        super(id, grid)
+    constructor(canvas, grid) {
+        super(canvas, grid)
         this._initTanks()
         this.bullets = []
         this._initTimer()

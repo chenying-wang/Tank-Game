@@ -12,6 +12,7 @@ const Config = {
     DEBUG_DRAW: false,
     DEBUG_COLLIDE: false,
 
+    DEFAULT_CONTROL_MODE: 'mouse',
     FPS: 60,
 
     BACKGROUND_COLOR: 'rgb(0, 0, 0)',

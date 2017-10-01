@@ -10,6 +10,7 @@
     <script src="js/agent/tank_agent.js" async="async"></script>
 
     <!-- config -->
+    <script src="js/config/action_controller.js" async="async"></script>
     <script src="js/config/config.js" async="async"></script>
     <script src="js/config/key_actions.js" async="async"></script>
 
@@ -40,7 +41,7 @@
 
     <script>
         window.onload = () => {
-            main()
+            Main.main()
         }
     </script>
 </head>
@@ -49,18 +50,24 @@
     <h1 id="title">Tank Game</h1>
 
     <div id="content">
-        <canvas id="game" width="800" height="450"></canvas>
-        <div id="discription">
-            <input type="button" value="Toggle Discription" onclick="toggleDiscription()" />
+        <canvas id="game" width="800px" height="450px"></canvas>
+        <div id="info">
+            <input id="control-mode" type="button" value="Toggle Control Mode"
+                onclick="Main.toggleControlMode()" />
+            <input type="button" value="Toggle Discription"
+                onclick="Main.toggleDiscription()" />
             <div id="discription-content" style="visibility: visible;"></div>
         </div>
     </div>
 
     <div id="debug">
         <p id='pause'></p>
-        x: <input id="x" /> <br> y: <input id="y" /> <br> w(r): <input id="w" /> <br> h: <input id="h" /> <br>
-        <input type="button" value="Draw" onclick="debugDraw()" />
-        <input type="button" value="Draw Arc" onclick="debugDrawArc()" />
+        <p>x: <input id="x" /></p>
+        <p>y: <input id="y" /></p>
+        <p>w(r): <input id="w" /></p>
+        <p>h: <input id="h" /></p>
+        <input type="button" value="Draw" onclick="Main.debugDraw()" />
+        <input type="button" value="Draw Arc" onclick="Main.debugDrawArc()" />
     </div>
 </body>
 

@@ -2,61 +2,74 @@
 
 const log = console.log.bind(console)
 
-const debug = tankGame => {
-    window.debugTankGame = tankGame
-    document.querySelector('#debug').style.display = 'block'
-}
+class Main {
+    static main() {
+        Main._setDiscription()
 
-const debugDraw = () => {
-    if (Config.DEBUG_DRAW != true) return
-    const x = Number.parseInt(document.querySelector('#x').value)
-    const y = Number.parseInt(document.querySelector('#y').value)
-    const w = Number.parseInt(document.querySelector('#w').value)
-    const h = Number.parseInt(document.querySelector('#h').value)
-    window.debugTankGame.drawRect(Vector.new(x, y), 'rgb(255, 255, 255)', Vector.new(w, h))
-}
+        const canvas = document.querySelector('#game')
+        Main.mTankGame = TankGame.new(canvas, Vector.new(Config.GRID_X, Config.GRID_Y))
+        Main.mTankGame.start()
+        Main.mTankGame.pause()
 
-const debugDrawArc = () => {
-    if (Config.DEBUG_DRAW != true) return
-    const x = Number.parseInt(document.querySelector('#x').value)
-    const y = Number.parseInt(document.querySelector('#y').value)
-    const w = Number.parseInt(document.querySelector('#w').value)
-    window.debugTankGame.drawArc(Vector.new(x, y), 'rgb(255, 255, 255)', w)
-}
+        Main.controlMode = Config.DEFAULT_CONTROL_MODE
+        document.querySelector('#control-mode').value = 'Control by ' + Main.controlMode
+        Main.mActionController = ActionController.new(Main.mTankGame)
+        Main.mActionController.addActions(Main.controlMode)
 
-const setDiscription = () => {
-    const div = document.querySelector('#discription-content')
-    if (div == null) return
-    for (let action in KeyActions) {
-        let discription = "[" + action + "]" + " : " + KeyActions[action].discription
-        div.innerHTML += "<p>" + discription + "</p>"
+        if (Config.DEBUG_DRAW == true) {
+            debug(Main.mTankGame)
+        }
     }
-}
 
-const toggleDiscription = () => {
-    const div = document.querySelector('#discription-content')
-    log(div.style.visibility)
-    if (div.style.visibility == 'visible') {
-        div.style.visibility = 'hidden'
-    } else if (div.style.visibility == 'hidden') {
-        div.style.visibility = 'visible'
-    } else {
-        div.style.visibility = 'visible'
+    static toggleControlMode() {
+        Main.mActionController.removeActions(Main.controlMode)
+        if(Main.controlMode == 'mouse') {
+            Main.controlMode = 'keyboard'
+        } else {
+            Main.controlMode = 'mouse'
+        }
+        Main.mActionController.addActions(Main.controlMode)
+        document.querySelector('#control-mode').value = 'Control by ' + Main.controlMode
     }
-}
 
-const main = () => {
-    setDiscription()
+    static toggleDiscription() {
+        const div = document.querySelector('#discription-content')
+        if (div.style.visibility == 'visible') {
+            div.style.visibility = 'hidden'
+        } else if (div.style.visibility == 'hidden') {
+            div.style.visibility = 'visible'
+        } else {
+            div.style.visibility = 'visible'
+        }
+    }
 
-    const mTankGame = TankGame.new('game', Vector.new(Config.GRID_X, Config.GRID_Y))
-    mTankGame.start()
-    mTankGame.pause()
+    static _setDiscription() {
+        const div = document.querySelector('#discription-content')
+        if (div == null) return
+        for (let action in KeyActions) {
+            let discription = "[" + action + "]" + " : " + KeyActions[action].discription
+            div.innerHTML += "<p>" + discription + "</p>"
+        }
+    }
 
-    window.addEventListener('keydown', event => {
-        KeyActions[event.code]['keydown'] && KeyActions[event.code]['keydown'](mTankGame)
-    })
+    static debug(tankGame) {
+        document.querySelector('#debug').style.display = 'block'
+    }
 
-    if (Config.DEBUG_DRAW == true) {
-        debug(mTankGame)
+    static debugDraw() {
+        if (Config.DEBUG_DRAW != true) return
+        const x = Number.parseInt(document.querySelector('#x').value)
+        const y = Number.parseInt(document.querySelector('#y').value)
+        const w = Number.parseInt(document.querySelector('#w').value)
+        const h = Number.parseInt(document.querySelector('#h').value)
+        Main.mTankGame.drawRect(Vector.new(x, y), 'rgb(255, 255, 255)', Vector.new(w, h))
+    }
+
+    static debugDrawArc() {
+        if (Config.DEBUG_DRAW != true) return
+        const x = Number.parseInt(document.querySelector('#x').value)
+        const y = Number.parseInt(document.querySelector('#y').value)
+        const w = Number.parseInt(document.querySelector('#w').value)
+        Main.mTankGame.drawArc(Vector.new(x, y), 'rgb(255, 255, 255)', w)
     }
 }

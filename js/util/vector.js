@@ -85,8 +85,10 @@ class Vector {
         return l
     }
 
-    angle() {
-        let a = Math.atan2(this.x, this.y) * 180 / Math.PI
+    angle(vector) {
+        let v = this
+        if(vector instanceof Vector) v = vector.minus(v)
+        let a = Math.atan2(v.x, v.y) * 180 / Math.PI
         a = (a + 360) % 360
         return a
     }

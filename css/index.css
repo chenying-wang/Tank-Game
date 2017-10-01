@@ -17,12 +17,11 @@ body {
 #game {
     margin: 0;
     border: 1px dashed rgb(100, 100, 100);
-    width: 840px;
 }
 
-#discription {
+#info {
     margin: 0;
-    width: 240px;
+    width: 360px;
     text-align: center;
 }
 

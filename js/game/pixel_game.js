@@ -1,8 +1,8 @@
 "use strict"
 
 class PixelGame {
-    constructor(id, grid) {
-        this._initCanvas(id)
+    constructor(canvas, grid) {
+        this._initContext(canvas)
         this._initGrid(grid)
         this._initTanks()
         this._initTimer()
@@ -12,9 +12,8 @@ class PixelGame {
         return new this(...args)
     }
 
-    _initCanvas(id) {
-        this.id = id
-        const canvas = document.querySelector('#' + id)
+    _initContext(canvas) {
+        this.canvas = canvas
         if (canvas.getContext) {
             this.total = Vector.new(canvas.width, canvas.height)
             const ctx = canvas.getContext('2d')
