@@ -1,8 +1,7 @@
 "use strict"
 
 class ActionController {
-    constructor(game) {
-        this.game = game
+    constructor() {
         this.actions = {
             keyboard: [
                 {

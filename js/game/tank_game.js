@@ -1,8 +1,11 @@
 "use strict"
 
 class TankGame extends PixelGame {
-    constructor(canvas, grid) {
-        super(canvas, grid)
+    constructor(episode, canvas, grid) {
+        super(episode, canvas, grid)
+
+        log('episode ' + this.episode)
+        this.clear()
         this._initTanks()
         this.bullets = []
         this._initTimer()
@@ -34,6 +37,11 @@ class TankGame extends PixelGame {
     _initTimer() {
         this.timer = Timer.new(() => {
             this.clear()
+            if(this.tanks.length == 1) {
+                this._over()
+                return
+            }
+
             for (let bullet of this.bullets) {
                 bullet.move()
                 bullet.draw()
@@ -49,10 +57,15 @@ class TankGame extends PixelGame {
                 }
             }
             for(let agent of this.agents) {
-                log('reward', agent.tank.id, agent.reward)
+                agent.updateStatus()
+                // log('reward', agent.tank.id, agent.reward)
             }
-
         }, Config.INTERVAL)
+    }
+
+    _over() {
+        this.timer.stop()
+        Main.updateTankGame(this.canvas)
     }
 
     deleteTank(tank) {

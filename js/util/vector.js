@@ -79,8 +79,10 @@ class Vector {
         return this
     }
 
-    length() {
-        let l = this.x ** 2 + this.y ** 2
+    length(vector) {
+        let v = this
+        if(vector instanceof Vector) v = vector.minus(v)
+        let l = v.x ** 2 + v.y ** 2
         l = Math.sqrt(l)
         return l
     }

@@ -9,14 +9,17 @@ const Config = {
         Config.TANK_COOLDOWN *= Config.FPS
     },
 
+    // debug
     DEBUG_DRAW: false,
     DEBUG_COLLIDE: false,
 
     DEFAULT_CONTROL_MODE: 'mouse',
     FPS: 60,
 
+    // canvas
     BACKGROUND_COLOR: 'rgb(0, 0, 0)',
 
+    // grid
     GRID_X: 400,
     GRID_Y: 225,
 
@@ -29,7 +32,7 @@ const Config = {
     TANK_HEIGHT: 11,
     TANK_SPEED: 20,
     TANK_COLOR: 'rgb(255, 255, 255)',
-    TANK_HP: 5,
+    TANK_HP: 2,
     TANK_COOLDOWN: 1,
 
     // bullet
@@ -39,13 +42,18 @@ const Config = {
     BULLET_COLOR: 'rgb(255, 0, 0)',
     BULLET_ATTACK: 1,
 
-    // cd
+    // cd indicator
     CD_COLOR: 'rgb(0, 255, 255)',
 
-    // hp
+    // hp indicator
     HP_HEIGHT: 2,
     HP_COLOR: 'rgb(255, 0, 0)',
     HP_COLOR_REMAIN: 'rgb(0, 255, 0)',
+
+    // status
+    STATUS_DISTANCE_X: 0,
+    STATUS_DISTANCE_Y: 1,
+    STATUS_SPEED_ANGLE: 2,
 
     // reward
     REWARD_DAMAGE: 1,

@@ -4,29 +4,37 @@ const log = console.log.bind(console)
 
 class Main {
     static main() {
+        Main.episode = 0
+        const canvas = document.querySelector('#game')
         Main._setDiscription()
 
-        const canvas = document.querySelector('#game')
-        Main.mTankGame = TankGame.new(canvas, Vector.new(Config.GRID_X, Config.GRID_Y))
-        Main.mTankGame.start()
-        Main.mTankGame.pause()
-
+        Main.mActionController = ActionController.new()
         Main.controlMode = Config.DEFAULT_CONTROL_MODE
-        document.querySelector('#control-mode').value = 'Control by ' + Main.controlMode
-        Main.mActionController = ActionController.new(Main.mTankGame)
-        Main.mActionController.addActions(Main.controlMode)
+        Main.updateTankGame(canvas)
+        Main.toggleControlMode('set')
 
         if (Config.DEBUG_DRAW == true) {
             debug(Main.mTankGame)
         }
     }
 
-    static toggleControlMode() {
-        Main.mActionController.removeActions(Main.controlMode)
-        if(Main.controlMode == 'mouse') {
-            Main.controlMode = 'keyboard'
-        } else {
-            Main.controlMode = 'mouse'
+    static updateTankGame(canvas) {
+        Main.mTankGame = TankGame.new(Main.episode, canvas,
+            Vector.new(Config.GRID_X, Config.GRID_Y))
+        Main.mActionController.game = Main.mTankGame
+        Main.mTankGame.start()
+        // Main.mTankGame.pause()
+        Main.episode++
+    }
+
+    static toggleControlMode(controlMode) {
+        if(controlMode != 'set') {
+            Main.mActionController.removeActions(Main.controlMode)
+            if(Main.controlMode == 'mouse') {
+                Main.controlMode = 'keyboard'
+            } else {
+                Main.controlMode = 'mouse'
+            }
         }
         Main.mActionController.addActions(Main.controlMode)
         document.querySelector('#control-mode').value = 'Control by ' + Main.controlMode

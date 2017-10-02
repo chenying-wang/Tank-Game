@@ -1,7 +1,8 @@
 "use strict"
 
 class PixelGame {
-    constructor(canvas, grid) {
+    constructor(episode, canvas, grid) {
+        this.episode = episode
         this._initContext(canvas)
         this._initGrid(grid)
         this._initTanks()
