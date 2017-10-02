@@ -17,6 +17,15 @@ class Tank extends Entity {
         this.cd = 0
     }
 
+    move() {
+        super.move()
+
+        if (this.position.x < 0) this.position.x = 0
+        else if (this.position.x > Config.GRID_X) this.position.x = Config.GRID_X
+        if (this.position.y < 0) this.position.y = 0
+        else if (this.position.y > Config.GRID_Y) this.position.y = Config.GRID_Y
+    }
+
     cooldown() {
         if (this.cd <= 0) return
         this.cd -= 1
@@ -45,6 +54,31 @@ class Tank extends Entity {
         if (this.hp <= 0) {
             this.agent.reward += Config.REWARD_DIE
             this.clear()
+        }
+    }
+
+    collideCallback(entity) {
+        if(entity instanceof Tank) {
+            let offset = Vector.new()
+            const dx = Math.abs(this.position.x - entity.position.x)
+            const dy = Math.abs(this.position.y - entity.position.y)
+            const dxmin = (this.collideSize.x + entity.collideSize.x) / 2
+            const dymin = (this.collideSize.y + entity.collideSize.y) / 2
+            const center = this.position.add(entity.position).multiply(0.5)
+            const angle = this.position.angle(entity.position)
+            if(dx > dy) {
+                offset.x = (dxmin - dx) / 2
+                offset.x *= Math.sign(Math.sin(angle * Math.PI / 180))
+                offset.y = offset.x / Math.tan(angle * Math.PI /180)
+
+            }
+            else {
+                offset.y = (dymin - dy) / 2
+                offset.y *= Math.sign(Math.cos(angle * Math.PI / 180))
+                offset.x = offset.y * Math.tan(angle * Math.PI /180)
+            }
+            this.position.minusEqual(offset)
+            entity.position.addEqual(offset)
         }
     }
 

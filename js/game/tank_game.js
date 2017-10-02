@@ -46,6 +46,10 @@ class TankGame extends PixelGame {
             for (let tank of this.tanks) {
                 tank.move()
                 tank.cooldown()
+                for (let otherTank of this.tanks) {
+                    if(otherTank == tank) continue
+                    otherTank.collide(tank)
+                }
                 tank.draw()
             }
             for (let bullet of this.bullets) {

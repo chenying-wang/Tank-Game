@@ -32,13 +32,13 @@ const Config = {
     TANK_HEIGHT: 11,
     TANK_SPEED: 20,
     TANK_COLOR: 'rgb(255, 255, 255)',
-    TANK_HP: 2,
+    TANK_HP: 10,
     TANK_COOLDOWN: 1,
 
     // bullet
     BULLET_WIDTH: 1,
     BULLET_HEIGHT: 3,
-    BULLET_SPEED: 300,
+    BULLET_SPEED: 100,
     BULLET_COLOR: 'rgb(255, 0, 0)',
     BULLET_ATTACK: 1,
 
