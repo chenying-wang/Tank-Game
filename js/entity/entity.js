@@ -17,6 +17,10 @@ class Entity {
 
     move() {
         this.position.addEqual(this.speed)
+        if (this.position.x < 0) this.position.x = 0
+        else if (this.position.x > Config.GRID_X) this.position.x = Config.GRID_X
+        if (this.position.y < 0) this.position.y = 0
+        else if (this.position.y > Config.GRID_Y) this.position.y = Config.GRID_Y
     }
 
     draw() {

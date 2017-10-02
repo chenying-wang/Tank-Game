@@ -5,7 +5,6 @@ class PixelGame {
         this.episode = episode
         this._initContext(canvas)
         this._initGrid(grid)
-        this._initTanks()
         this._initTimer()
     }
 

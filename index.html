@@ -7,7 +7,8 @@
     <link type="text/css" rel="stylesheet" href="css/index.css" />
 
     <!-- agent -->
-    <script src="js/agent/tank_agent.js" async="async"></script>
+    <script src="js/agent/tank_agent.js"></script>
+    <script src="js/agent/ai_tank_agent.js" async="async"></script>
 
     <!-- config -->
     <script src="js/config/action_controller.js" async="async"></script>
@@ -53,10 +54,8 @@
     <div id="content">
         <canvas id="game" width="800px" height="450px"></canvas>
         <div id="info">
-            <input id="control-mode" type="button" value="Toggle Control Mode"
-                onclick="Main.toggleControlMode()" />
-            <input type="button" value="Toggle Discription"
-                onclick="Main.toggleDiscription()" />
+            <input id="control-mode" type="button" value="Toggle Control Mode" onclick="Main.toggleControlMode()" />
+            <input type="button" value="Toggle Discription" onclick="Main.toggleDiscription()" />
             <div id="discription-content" style="visibility: visible;"></div>
         </div>
     </div>

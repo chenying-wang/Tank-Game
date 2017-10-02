@@ -8,6 +8,16 @@ class Main {
         const canvas = document.querySelector('#game')
         Main._setDiscription()
 
+        Main.agents = []
+        for (let i = 0; i < Config.TANK_NUMBER; i++) {
+            if (i == 0) {
+                Main.agents.push(TankAgent.new())
+            } else {
+                Main.agents.push(AITankAgent.new())
+            }
+        }
+        Main.player = Main.agents[0]
+
         Main.mActionController = ActionController.new()
         Main.controlMode = Config.DEFAULT_CONTROL_MODE
         Main.updateTankGame(canvas)
@@ -19,18 +29,31 @@ class Main {
     }
 
     static updateTankGame(canvas) {
+        log('episode ' + Main.episode)
         Main.mTankGame = TankGame.new(Main.episode, canvas,
             Vector.new(Config.GRID_X, Config.GRID_Y))
         Main.mActionController.game = Main.mTankGame
+
+        Main.setAgents()
+        Main.mTankGame.setPlayer(Main.player)
+
         Main.mTankGame.start()
         // Main.mTankGame.pause()
+
         Main.episode++
     }
 
+    static setAgents() {
+        for (let i = 0; i < Config.TANK_NUMBER; i++) {
+            Main.mTankGame.setAgent(i, Main.agents[i])
+            Main.agents[i].reward = 0
+        }
+    }
+
     static toggleControlMode(controlMode) {
-        if(controlMode != 'set') {
+        if (controlMode != 'set') {
             Main.mActionController.removeActions(Main.controlMode)
-            if(Main.controlMode == 'mouse') {
+            if (Main.controlMode == 'mouse') {
                 Main.controlMode = 'keyboard'
             } else {
                 Main.controlMode = 'mouse'
