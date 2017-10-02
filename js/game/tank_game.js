@@ -10,19 +10,24 @@ class TankGame extends PixelGame {
 
     _initTanks() {
         this.tanks = []
-        for (let i = 0; i < Config.TANK_NUMBER; i++) {
-            const initX = Math.floor(Config.GRID_X / 2 + i * 100 - 100)
-            const initY = Math.floor(Config.GRID_Y / 2)
-            const v = Vector.new(initX, initY)
-            let tank
-            if (i != 0) {
-                tank = Tank.new(this, v)
-                tank.speed.setLength(0)
-            } else {
-                tank = Tank.new(this, v, 'player')
-                this.player = TankAgent.new(tank)
-            }
+        this.agents = []
+        let initX = Math.floor(Config.GRID_X / 2 - 100)
+        let initY = Math.floor(Config.GRID_Y / 2)
+        let v = Vector.new(initX, initY)
+        let tank = Tank.new(this, v, 'player')
+        let agent = TankAgent.new(tank)
+        this.tanks.push(tank)
+        this.agents[0] = agent
+        this.player = this.agents[0]
+        for (let i = 1; i < Config.TANK_NUMBER; i++) {
+            initX = Math.floor(Config.GRID_X / 2 + i * 100 - 100)
+            initY = Math.floor(Config.GRID_Y / 2)
+            v = Vector.new(initX, initY)
+            tank = Tank.new(this, v, i)
+            agent = TankAgent.new(tank)
+            tank.speed.setLength(0)
             this.tanks.push(tank)
+            this.agents[i] = agent
         }
     }
 
@@ -43,6 +48,10 @@ class TankGame extends PixelGame {
                     bullet.collide(tank)
                 }
             }
+            for(let agent of this.agents) {
+                log('reward', agent.tank.id, agent.reward)
+            }
+
         }, Config.INTERVAL)
     }
 

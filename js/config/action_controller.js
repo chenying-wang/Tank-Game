@@ -4,11 +4,11 @@ class ActionController {
     constructor(game) {
         this.game = game
         this.actions = {
-            'keyboard': [
+            keyboard: [
                 {
-                    'element': window,
-                    'type': 'keydown',
-                    'function': event => {
+                    element: window,
+                    type: 'keydown',
+                    function: event => {
                         if (KeyActions[event.code] && KeyActions[event.code]['keydown']) {
                             event.preventDefault()
                             KeyActions[event.code]['keydown'](this.game)
@@ -16,11 +16,11 @@ class ActionController {
                     }
                 }
             ],
-            'mouse': [
+            mouse: [
                 {
-                    'element': document.querySelector('#game'),
-                    'type': 'mousemove',
-                    'function': event => {
+                    element: document.querySelector('#game'),
+                    type: 'mousemove',
+                    function: event => {
                         event.preventDefault()
                         let dest = Vector.new(event.offsetX / this.game.unitWidth,
                             (this.game.total.y - event.offsetY) / this.game.unitHeight)
@@ -28,9 +28,9 @@ class ActionController {
                     }
                 },
                 {
-                    'element': document.querySelector('#game'),
-                    'type': 'click',
-                    'function': event => {
+                    element: document.querySelector('#game'),
+                    type: 'click',
+                    function: event => {
                         event.preventDefault()
                         let dest = Vector.new(event.offsetX / this.game.unitWidth,
                             (this.game.total.y - event.offsetY) / this.game.unitHeight)
@@ -38,9 +38,9 @@ class ActionController {
                     }
                 },
                 {
-                    'element': document.querySelector('#game'),
-                    'type': 'dblclick',
-                    'function': event => {
+                    element: document.querySelector('#game'),
+                    type: 'dblclick',
+                    function: event => {
                         if (this.game.timer.pause == true) this.game.start()
                         else if (this.game.timer.pause == false) this.game.pause()
                     }

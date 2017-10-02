@@ -11,6 +11,7 @@ class CooldownIndicator extends Pattern {
         this.ring.color = Config.CD_COLOR
 
         this.font = Font.new(this)
+        this.font.color = Config.CD_COLOR
 
         this.patterns.push(this.ring)
         this.patterns.push(this.font)

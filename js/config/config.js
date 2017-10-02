@@ -1,13 +1,13 @@
 "use strict"
 
-const configInit = () => {
-    Config.INTERVAL = 1000 / Config.FPS
-    Config.TANK_SPEED /= Config.FPS
-    Config.BULLET_SPEED /= Config.FPS
-    Config.TANK_COOLDOWN *= Config.FPS
-}
-
 const Config = {
+
+    _init: () => {
+        Config.INTERVAL = 1000 / Config.FPS
+        Config.TANK_SPEED /= Config.FPS
+        Config.BULLET_SPEED /= Config.FPS
+        Config.TANK_COOLDOWN *= Config.FPS
+    },
 
     DEBUG_DRAW: false,
     DEBUG_COLLIDE: false,
@@ -29,7 +29,7 @@ const Config = {
     TANK_HEIGHT: 11,
     TANK_SPEED: 20,
     TANK_COLOR: 'rgb(255, 255, 255)',
-    TANK_HP: 10,
+    TANK_HP: 5,
     TANK_COOLDOWN: 1,
 
     // bullet
@@ -45,7 +45,11 @@ const Config = {
     // hp
     HP_HEIGHT: 2,
     HP_COLOR: 'rgb(255, 0, 0)',
-    HP_COLOR_REMAIN: 'rgb(0, 255, 0)'
+    HP_COLOR_REMAIN: 'rgb(0, 255, 0)',
+
+    // reward
+    REWARD_DAMAGE: 1,
+    REWARD_DIE: -5
 }
 
-configInit()
+Config._init()

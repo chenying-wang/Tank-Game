@@ -3,6 +3,10 @@
 class TankAgent {
     constructor(tank) {
         this.tank = tank
+        tank.agent = this
+
+        // this.status
+        this.reward = 0
     }
 
     static new(...args) {

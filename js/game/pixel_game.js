@@ -94,15 +94,15 @@ class PixelGame {
         this.ctx.stroke()
     }
 
-    drawFont(position, text, font = '30px') {
+    drawFont(position, text, font, color) {
         // log('draw font')
         let x = position.x
         let y = position.y
         x *= this.unitWidth
         y = this.total.y - y * this.unitHeight
 
-        this.ctx.fillStyle = Config.CD_COLOR
-        this.ctx.font = '12px'
+        this.ctx.fillStyle = color
+        this.ctx.font = font
         this.ctx.textBaseline = 'middle'
         this.ctx.textAlign = 'center'
         this.ctx.fillText(text, x, y)

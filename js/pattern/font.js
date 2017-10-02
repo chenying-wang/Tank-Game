@@ -5,11 +5,12 @@ class Font extends Pattern {
         super(parent, offset, anchor)
 
         this.text = ''
+        this.color = Config.PATTERN_COLOR
     }
 
     _drawPattern() {
         super._drawPattern()
 
-        this.game.drawFont(this.position, this.text)
+        this.game.drawFont(this.position, this.text, '11px sans-serif', this.color)
     }
 }

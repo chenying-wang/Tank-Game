@@ -8,6 +8,7 @@ class Tank extends Entity {
         this.patterns.push(TankPattern.new(this))
         if (this.id == 'player') {
             this.patterns.push(CooldownIndicator.new(this, Vector.new(16, 16), this.game.origin))
+            this.patterns.push(RewardIndicator.new(this, Vector.new(32, 16), this.game.origin))
         }
         this.patterns.push(HpIndicator.new(this, Vector.new(0, Math.floor(Config.TANK_HEIGHT / 1.5))))
 
@@ -36,12 +37,16 @@ class Tank extends Entity {
 
         let bullet = Bullet.new(this.game, bulletPosition)
         bullet.speed = Vector.new(this.speed).setLength(Config.BULLET_SPEED)
+        bullet.attacker = this
         this.game.bullets.push(bullet)
     }
 
     damage(attack) {
         this.hp -= attack
-        if (this.hp <= 0) this.clear()
+        if (this.hp <= 0) {
+            this.agent.reward += Config.REWARD_DIE
+            this.clear()
+        }
     }
 
     clear() {
