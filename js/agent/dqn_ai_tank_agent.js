@@ -9,6 +9,10 @@ class DqnAiTankAgent extends AiTankAgent {
         this.dicountFactor = 0.9
     }
 
+    _initValueFunction() {
+        
+    }
+
     action() {
         const dx = this.status[Config.STATUS_DISTANCE_X]
         const dy = this.status[Config.STATUS_DISTANCE_Y]

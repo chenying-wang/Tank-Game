@@ -5,14 +5,6 @@ class AiTankAgent extends TankAgent {
         super()
     }
 
-    initValueFunction() {
-        
-    }
-
-    action() {
-        
-    }
-
     updateStatus() {
         const nearestTank = this.findNearestTank()
         this.status[Config.STATUS_DISTANCE_X] =

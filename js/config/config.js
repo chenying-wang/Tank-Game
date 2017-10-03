@@ -13,6 +13,7 @@ const Config = {
     DEBUG_DRAW: false,
     DEBUG_COLLIDE: false,
 
+    // basic
     DEFAULT_CONTROL_MODE: 'mouse',
     GAME_RATE: 1,
     FPS: 60,
