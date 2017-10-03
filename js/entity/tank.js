@@ -5,7 +5,7 @@ class Tank extends Entity {
         super(tankGame, position, id)
 
         this.patterns.push(TankPattern.new(this))
-        if (this.id == 'player') {
+        if (this.id == Config.PLAYER_ID) {
             this.patterns.push(CooldownIndicator.new(this, Vector.new(16, 16), this.game.origin))
             this.patterns.push(RewardIndicator.new(this, Vector.new(32, 16), this.game.origin))
         }

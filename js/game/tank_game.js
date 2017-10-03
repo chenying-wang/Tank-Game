@@ -1,9 +1,10 @@
 "use strict"
 
 class TankGame extends PixelGame {
-    constructor(episode, canvas, grid) {
+    constructor(episode, canvas, grid, tankId) {
         super(episode, canvas, grid)
 
+        this.tankId = tankId
         this.clear()
         this._initTanks()
         this.bullets = []
@@ -13,7 +14,6 @@ class TankGame extends PixelGame {
     _initTanks() {
         this.tanks = []
         this.agents = []
-        this.tankId = ['player', 'bot1', 'bot2']
 
         for (let i = 0; i < Config.TANK_NUMBER; i++) {
             let initX = Math.floor(Config.GRID_X / 2 + i * 100 - 100)
@@ -35,8 +35,8 @@ class TankGame extends PixelGame {
             }
 
             for (let agent of this.agents) {
-                agent.updateStatus()
                 if (agent == this.player) continue
+                agent.updateStatus()
                 agent.action()
             }
             for (let bullet of this.bullets) {

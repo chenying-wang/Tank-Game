@@ -8,15 +8,23 @@ class Main {
         const canvas = document.querySelector('#game')
         Main._setDiscription()
 
+        Main.tankId = ['player', 'bot1', 'bot2']
+        Main.tankType = ['agent', 'simple', 'simple']
         Main.agents = []
+        let agent
         for (let i = 0; i < Config.TANK_NUMBER; i++) {
-            if (i == 0) {
-                Main.agents.push(TankAgent.new())
-            } else {
-                Main.agents.push(AITankAgent.new())
+            if(Main.tankType[i] == 'agent') {
+                agent = TankAgent.new()
+            } else if(Main.tankType[i] == 'simple') {
+                agent = SimpleAiTankAgent.new()
+            } else if(Main.tankType[i] == 'dqn') {
+                agent = DqnAiTankAgent.new()
             }
+            if (Main.tankId[i] == Config.PLAYER_ID) {
+                Main.player = agent
+            }
+            Main.agents.push(agent)
         }
-        Main.player = Main.agents[0]
 
         Main.mActionController = ActionController.new()
         Main.controlMode = Config.DEFAULT_CONTROL_MODE
@@ -31,15 +39,13 @@ class Main {
     static updateTankGame(canvas) {
         log('episode ' + Main.episode)
         Main.mTankGame = TankGame.new(Main.episode, canvas,
-            Vector.new(Config.GRID_X, Config.GRID_Y))
+            Vector.new(Config.GRID_X, Config.GRID_Y), Main.tankId)
         Main.mActionController.game = Main.mTankGame
-
         Main.setAgents()
-        Main.mTankGame.setPlayer(Main.player)
-
+        if(Main.player) {
+            Main.mTankGame.setPlayer(Main.player)
+        }
         Main.mTankGame.start()
-        // Main.mTankGame.pause()
-
         Main.episode++
     }
 

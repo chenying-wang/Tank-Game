@@ -3,7 +3,7 @@
 const Config = {
 
     _init: () => {
-        Config.INTERVAL = 1000 / Config.FPS
+        Config.INTERVAL = 1000 / (Config.FPS * Config.GAME_RATE)
         Config.TANK_SPEED /= Config.FPS
         Config.BULLET_SPEED /= Config.FPS
         Config.TANK_COOLDOWN *= Config.FPS
@@ -14,7 +14,9 @@ const Config = {
     DEBUG_COLLIDE: false,
 
     DEFAULT_CONTROL_MODE: 'mouse',
+    GAME_RATE: 1,
     FPS: 60,
+    PLAYER_ID: 'player',
 
     // canvas
     BACKGROUND_COLOR: 'rgb(0, 0, 0)',

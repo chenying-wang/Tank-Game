@@ -1,4 +1,4 @@
-# Web Tank Game
+# Tank Game
 
 ## License
 MIT
