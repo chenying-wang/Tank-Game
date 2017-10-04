@@ -2,11 +2,6 @@
 
 class Entity {
     constructor(tankGame, position, id = null) {
-        this.UP = 0
-        this.RIGHT = 90
-        this.DOWN = 180
-        this.LEFT = 270
-
         this.game = tankGame
         this.position = position
         this.id = id
@@ -63,3 +58,8 @@ class Entity {
         return true
     }
 }
+
+Entity.UP = 0
+Entity.RIGHT = 90
+Entity.DOWN = 180
+Entity.LEFT = 270

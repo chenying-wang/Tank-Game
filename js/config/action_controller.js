@@ -17,7 +17,7 @@ class ActionController {
             ],
             mouse: [
                 {
-                    element: document.querySelector('#game'),
+                    element: document.getElementById('game'),
                     type: 'mousemove',
                     function: event => {
                         event.preventDefault()
@@ -27,7 +27,7 @@ class ActionController {
                     }
                 },
                 {
-                    element: document.querySelector('#game'),
+                    element: document.getElementById('game'),
                     type: 'click',
                     function: event => {
                         event.preventDefault()
@@ -37,8 +37,18 @@ class ActionController {
                     }
                 },
                 {
-                    element: document.querySelector('#game'),
+                    element: document.getElementById('game'),
                     type: 'dblclick',
+                    function: event => {
+                        if (this.game.timer.pause == true) this.game.start()
+                        else if (this.game.timer.pause == false) this.game.pause()
+                    }
+                }
+            ],
+            test: [
+                {
+                    element: document.getElementById('game'),
+                    type: 'click',
                     function: event => {
                         if (this.game.timer.pause == true) this.game.start()
                         else if (this.game.timer.pause == false) this.game.pause()

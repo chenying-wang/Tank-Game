@@ -5,7 +5,12 @@ class SimpleAiTankAgent extends AiTankAgent {
         super()
     }
     
-    action() {
+    loop() {
+        this._updateStatus()
+        this._action()
+    }
+
+    _action() {
         const dx = this.status[Config.STATUS_DISTANCE_X]
         const dy = this.status[Config.STATUS_DISTANCE_Y]
         this.move(Vector.new(dx, dy).angle())

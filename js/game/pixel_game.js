@@ -95,7 +95,6 @@ class PixelGame {
     }
 
     drawFont(position, text, font, color) {
-        // log('draw font')
         let x = position.x
         let y = position.y
         x *= this.unitWidth

@@ -42,6 +42,7 @@
 
     <!-- util -->
     <script src="js/util/timer.js" async="async"></script>
+    <script src="js/util/util.js" async="async"></script>    
     <script src="js/util/vector.js" async="async"></script>
 
     <!-- main -->
@@ -62,8 +63,12 @@
         <div id="info">
             <input id="control-mode" type="button" value="Toggle Control Mode" onclick="Main.toggleControlMode()" />
             <input type="button" value="Toggle Discription" onclick="Main.toggleDiscription()" />
+            <input type="button" value="Toggle Log" onclick="Main.toggleLog()" />
             <div id="discription-content" style="visibility: visible;"></div>
         </div>
+    </div>
+
+    <div id="log">
     </div>
 
     <div id="debug">

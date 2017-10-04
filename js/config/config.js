@@ -10,14 +10,17 @@ const Config = {
     },
 
     // debug
+    DEBUG_LOG: true,
     DEBUG_DRAW: false,
     DEBUG_COLLIDE: false,
 
     // basic
     DEFAULT_CONTROL_MODE: 'mouse',
-    GAME_RATE: 1,
-    FPS: 60,
+    TANK_ID: ['bot0', 'bot1', 'bot2', 'bot3', 'bot4', 'bot5', 'bot6', 'bot7', 'bot8', 'bot9'],
+    TANK_TYPE: ['dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn'],
     PLAYER_ID: 'player',
+    GAME_RATE: 20,
+    FPS: 50,
 
     // canvas
     BACKGROUND_COLOR: 'rgb(0, 0, 0)',
@@ -30,7 +33,6 @@ const Config = {
     PATTERN_COLOR: 'rgb(255, 255, 255)',
 
     // tank
-    TANK_NUMBER: 3,
     TANK_WIDTH: 11,
     TANK_HEIGHT: 11,
     TANK_SPEED: 20,

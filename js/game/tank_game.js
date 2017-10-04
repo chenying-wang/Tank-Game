@@ -15,9 +15,9 @@ class TankGame extends PixelGame {
         this.tanks = []
         this.agents = []
 
-        for (let i = 0; i < Config.TANK_NUMBER; i++) {
-            let initX = Math.floor(Config.GRID_X / 2 + i * 100 - 100)
-            let initY = Math.floor(Config.GRID_Y / 2)
+        for (let i = 0; i < Config.TANK_ID.length; i++) {
+            let initX = Math.floor(Util.random(Config.GRID_X))
+            let initY = Math.floor(Util.random(Config.GRID_Y))
             let v = Vector.new(initX, initY)
             let tank = Tank.new(this, v, this.tankId[i])
 
@@ -36,8 +36,7 @@ class TankGame extends PixelGame {
 
             for (let agent of this.agents) {
                 if (agent == this.player) continue
-                agent.updateStatus()
-                agent.action()
+                agent.loop()
             }
             for (let bullet of this.bullets) {
                 bullet.move()
@@ -64,6 +63,7 @@ class TankGame extends PixelGame {
         this.tanks[id].agent = agent
         this.tanks[id].agent.tank = this.tanks[id]
         this.tanks[id].agent.game = this
+        this.tanks[id].agent.init()
         this.agents[id] = this.tanks[id].agent
     }
 

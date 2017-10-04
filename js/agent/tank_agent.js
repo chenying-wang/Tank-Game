@@ -2,7 +2,10 @@
 
 class TankAgent {
     constructor() {
-        this.status = []
+        this.reward = 0
+    }
+
+    init() {
         this.reward = 0
     }
 
@@ -10,11 +13,15 @@ class TankAgent {
         return new this(...args)
     }
 
+    loop() {
+        this.fire()
+    }
+
     move(angle) {
         this.tank.speed.setAngle(angle)
     }
 
     fire() {
-        this.tank._fire()
+        this.tank.fire()
     }
 }

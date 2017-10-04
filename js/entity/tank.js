@@ -31,7 +31,7 @@ class Tank extends Entity {
         this.cd -= 1
     }
 
-    _fire() {
+    fire() {
         if (this.cd > 0) return
         this.cd = Config.TANK_COOLDOWN
 

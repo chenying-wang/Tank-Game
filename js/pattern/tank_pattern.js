@@ -1,4 +1,4 @@
-"use strice"
+"use strict"
 
 class TankPattern extends Pattern {
     constructor(parent, offset = Vector.new(0, 0)) {

@@ -3,8 +3,9 @@
 class NeuralNetwork {
     constructor() {
         this.layers = [3, 3, 2]
-        this.input = []
-        this.output = []
+        this.inputLayer = []
+        this.hiddenLayer = []
+        this.outputLayer = []
         this.init()
     }
 
@@ -13,21 +14,54 @@ class NeuralNetwork {
     }
 
     init() {
-        let neuron
+        
         for(let i = 0; i < this.layers.length; i++) {
             for(let j = 0; j < this.layers[i]; j++) {
+                let neuron
                 if(i == 0) {
                     neuron = Neuron.new(this, 'input')
-                    this.input.push(neuron)
+                    this.inputLayer.push(neuron)
                 } else if(i == this.layers.length - 1) {
                     neuron = Neuron.new(this, 'output')
-                    this.output.push(neuron)
+                    this.outputLayer.push(neuron)
                 } else {
-
+                    if(j == 0) this.hiddenLayer.push([])
+                    neuron = Neuron.new(this, 'hidden')
+                    this.hiddenLayer[i - 1].push(neuron)
                 }
             }
         }
+
+        for(let neuron of this.inputLayer) {
+            neuron.in = 0
+            neuron.factor = 1
+        }
+        for(let i = 0; i < this.hiddenLayer.length; i++) {
+            for(let neuron of this.hiddenLayer[i]) {
+                if(i > 0) {
+                    neuron.connect(this.hiddenLayer[i - 1])
+                } else {
+                    neuron.connect(this.inputLayer)
+                }
+            }
+        }
+        for(let neuron of this.outputLayer) {
+            neuron.connect(this.hiddenLayer[this.hiddenLayer.length - 1])
+        }
     }
 
-    
+    input(array) {
+        let i = 0
+        for(let neuron of this.inputLayer) {
+            neuron.in = array[i++]
+        }
+    }
+
+    output() {
+        let out = []
+        for(let neuron of this.outputLayer) {
+            out.push(neuron.value())
+        }
+        return out
+    }
 }

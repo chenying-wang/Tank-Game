@@ -1,3 +1,5 @@
+"use strict"
+
 class RewardIndicator extends Pattern {
     constructor(parent, offset = Vector.new(0, 0), anchor = parent) {
         super(parent, offset, anchor)
@@ -13,6 +15,6 @@ class RewardIndicator extends Pattern {
     _drawPattern() {
         super._drawPattern()
 
-        this.font.text =this.parent.agent.reward
+        this.font.text = this.parent.agent.reward
     }
 }
