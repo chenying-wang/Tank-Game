@@ -10,6 +10,7 @@ class ActionController {
                     function: event => {
                         if (KeyActions[event.code] && KeyActions[event.code]['keydown']) {
                             event.preventDefault()
+                            if(this.game.player == undefined) return
                             KeyActions[event.code]['keydown'](this.game)
                         }
                     }
@@ -21,9 +22,11 @@ class ActionController {
                     type: 'mousemove',
                     function: event => {
                         event.preventDefault()
+                        if(this.game.player == undefined) return
                         let dest = Vector.new(event.offsetX / this.game.unitWidth,
                             (this.game.total.y - event.offsetY) / this.game.unitHeight)
-                        this.game.player.move(this.game.player.tank.position.angle(dest))
+                            this.game.player && 
+                                this.game.player.move(this.game.player.tank.position.angle(dest))
                     }
                 },
                 {
@@ -31,15 +34,15 @@ class ActionController {
                     type: 'click',
                     function: event => {
                         event.preventDefault()
-                        let dest = Vector.new(event.offsetX / this.game.unitWidth,
-                            (this.game.total.y - event.offsetY) / this.game.unitHeight)
-                        this.game.player.fire(this.game.player.tank.position.angle(dest))
+                        if(this.game.player == undefined) return
+                        this.game.player.loop()
                     }
                 },
                 {
                     element: document.getElementById('game'),
                     type: 'dblclick',
                     function: event => {
+                        event.preventDefault()
                         if (this.game.timer.pause == true) this.game.start()
                         else if (this.game.timer.pause == false) this.game.pause()
                     }

@@ -34,10 +34,6 @@ class TankGame extends PixelGame {
                 return
             }
 
-            for (let agent of this.agents) {
-                if (agent == this.player) continue
-                agent.loop()
-            }
             for (let bullet of this.bullets) {
                 bullet.move()
                 bullet.draw()
@@ -55,6 +51,10 @@ class TankGame extends PixelGame {
                 for (let tank of this.tanks) {
                     bullet.collide(tank)
                 }
+            }
+            for (let agent of this.agents) {
+                if (agent == this.player) continue
+                agent.loop()
             }
         }, Config.INTERVAL)
     }

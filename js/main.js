@@ -1,15 +1,54 @@
 "use strict"
 
+window.onload = () => {
+    Main.main()
+}
+
 let log
 
 class Main {
     static main() {
-        Main.toggleLog(false)
+        Main.log = Config.DEBUG_LOG
+        Main._toggleLog(false) 
+        Main._setDescription()
+        document.getElementById('control-mode').onclick = () => {
+            Main._toggleControlMode()
+        }
+        document.getElementById('description').onclick = () => {
+            Main._toggleDescription()
+        }
+        document.getElementById('log').onclick = () => {
+            Main._toggleLog(true)
+        }
+    
+        Main._initActionController()
 
         Main.episode = 0
-        const canvas = document.getElementById('game')
-        Main._setDiscription()
+        Main._initAgents()
+        const canvas = document.getElementById(Config.CANVAS_ID)
+        Main.updateTankGame(canvas)
+    }
 
+    static _setDescription() {
+        const div = document.getElementById('description-content')
+        if (div == null) return
+        for (let action in KeyActions) {
+            let description = "[" + action + "]" + " : " + KeyActions[action].description
+            div.innerHTML += "<p>" + description + "</p>"
+        }
+    }
+
+    static _initActionController() {
+        Main.mActionController = ActionController.new()
+        if(this.player != undefined) {
+            Main.controlMode = Config.DEFAULT_CONTROL_MODE
+        } else {
+            Main.controlMode = 'test'
+        }
+        Main._toggleControlMode('KEEP')
+    }
+
+    static _initAgents() {
         Main.tankId = Config.TANK_ID
         Main.tankType = Config.TANK_TYPE
         Main.agents = []
@@ -29,17 +68,11 @@ class Main {
             }
             Main.agents.push(agent)
         }
-        
-        Main.mActionController = ActionController.new()
-        if(this.player != undefined) {
-            Main.controlMode = Config.DEFAULT_CONTROL_MODE
-        } else {
-            Main.controlMode = 'test'
-        }
-        Main.updateTankGame(canvas)
-        Main.toggleControlMode('set')
-        if (Config.DEBUG_DRAW == true) {
-            debug(Main.mTankGame)
+    }
+
+    static _setAgents() {
+        for (let i = 0; i < Config.TANK_ID.length; i++) {
+            Main.mTankGame.setAgent(i, Main.agents[i])
         }
     }
 
@@ -48,7 +81,7 @@ class Main {
         Main.mTankGame = TankGame.new(Main.episode, canvas,
             Vector.new(Config.GRID_X, Config.GRID_Y), Main.tankId)
         Main.mActionController.game = Main.mTankGame
-        Main.setAgents()
+        Main._setAgents()
         if(Main.player) {
             Main.mTankGame.setPlayer(Main.player)
         }
@@ -56,14 +89,8 @@ class Main {
         Main.episode++
     }
 
-    static setAgents() {
-        for (let i = 0; i < Config.TANK_ID.length; i++) {
-            Main.mTankGame.setAgent(i, Main.agents[i])
-        }
-    }
-
-    static toggleControlMode(controlMode) {
-        if (controlMode != 'set') {
+    static _toggleControlMode(controlMode) {
+        if (controlMode != 'KEEP') {
             Main.mActionController.removeActions(Main.controlMode)
             if (Main.controlMode == 'test') {
                 Main.controlMode = 'mouse'
@@ -77,56 +104,26 @@ class Main {
         document.getElementById('control-mode').value = 'Control by ' + Main.controlMode
     }
 
-    static toggleDiscription() {
-        const div = document.getElementById('discription-content')
+    static _toggleDescription() {
+        const div = document.getElementById('description-content')
         if (div.style.visibility == 'visible') {
             div.style.visibility = 'hidden'
         } else if (div.style.visibility == 'hidden') {
             div.style.visibility = 'visible'
         } else {
-            div.style.visibility = 'visible'
+            div.style.visibility = 'hidden'
         }
     }
 
-    static toggleLog(change) {
+    static _toggleLog(change) {
         if(change) {
-            Config.DEBUG_LOG = !Config.DEBUG_LOG
+            Main.log = !Main.log
         }
-        document.getElementById('log').value = 'Log: ' + Config.DEBUG_LOG
-        if(Config.DEBUG_LOG) {
+        if(Main.log) {
             log = console.log.bind(console)
         } else {
-            log = (...args) => {}
+            log = () => {}
         }
-    }
-
-    static _setDiscription() {
-        const div = document.getElementById('discription-content')
-        if (div == null) return
-        for (let action in KeyActions) {
-            let discription = "[" + action + "]" + " : " + KeyActions[action].discription
-            div.innerHTML += "<p>" + discription + "</p>"
-        }
-    }
-
-    static debug(tankGame) {
-        document.getElementById('debug').style.display = 'block'
-    }
-
-    static debugDraw() {
-        if (Config.DEBUG_DRAW != true) return
-        const x = Number.parseInt(document.getElementById('x').value)
-        const y = Number.parseInt(document.getElementById('y').value)
-        const w = Number.parseInt(document.getElementById('w').value)
-        const h = Number.parseInt(document.getElementById('h').value)
-        Main.mTankGame.drawRect(Vector.new(x, y), 'rgb(255, 255, 255)', Vector.new(w, h))
-    }
-
-    static debugDrawArc() {
-        if (Config.DEBUG_DRAW != true) return
-        const x = Number.parseInt(document.getElementById('x').value)
-        const y = Number.parseInt(document.getElementById('y').value)
-        const w = Number.parseInt(document.getElementById('w').value)
-        Main.mTankGame.drawArc(Vector.new(x, y), 'rgb(255, 255, 255)', w)
+        document.getElementById('log').value = 'Log: ' + Main.log
     }
 }

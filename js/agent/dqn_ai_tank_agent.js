@@ -22,8 +22,15 @@ class DqnAiTankAgent extends AiTankAgent {
         this.qNetwork  = NeuralNetwork.new()
     }
 
+    init() {
+        super.init()
+
+        this.lastStatus = this.status
+    }
+
     _actionValueFunction(status) {
         this.qNetwork.input(status)
+        
         return this.qNetwork.output()
     }
 
@@ -64,11 +71,16 @@ class DqnAiTankAgent extends AiTankAgent {
     _updateActionValueFunction() {
         const index = Math.floor(Util.random(this.replay.length))
         let randomMinibatach = this.replay[index]
-        let target
-        
-        // log(this._actionValueFunction(randomMinibatach[this.STATUS_INDEX]))
-  
-        let maxQ = Util.max(this._actionValueFunction(randomMinibatach[this.STATUS_INDEX]))
-        target = randomMinibatach[this.REWARD_INDEX] + this.DISCOUNT_FACTOR * maxQ
+        let maxNextQ, target, currentQ, loss = []
+
+        maxNextQ = Util.max(this._actionValueFunction(randomMinibatach[this.NEXT_STATUS_INDEX]))
+        // r + gamma * max(Q(s+1, a))
+        target = randomMinibatach[this.REWARD_INDEX] + this.DISCOUNT_FACTOR * maxNextQ
+
+        currentQ = this._actionValueFunction(randomMinibatach[this.STATUS_INDEX])
+        for(let value of currentQ) {
+            loss.push((target - value) ** 2)
+        }
+        this.qNetwork.updateWeight(loss)
     }
 }

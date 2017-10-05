@@ -2,56 +2,56 @@
 
 const KeyActions = {
     KeyW: {
-        discription: 'Move up',
+        description: 'Move up',
         keydown: tankGame => {
             tankGame.player.move(Tank.UP)
         }
     },
 
     KeyA: {
-        discription: 'Move left',
+        description: 'Move left',
         keydown: tankGame => {
             tankGame.player.move(Tank.LEFT)
         }
     },
 
     KeyS: {
-        discription: 'Move down',
+        discridescriptionption: 'Move down',
         keydown: tankGame => {
             tankGame.player.move(Tank.DOWN)
         }
     },
 
     KeyD: {
-        discription: 'Move right',
+        description: 'Move right',
         keydown: tankGame => {
             tankGame.player.move(Tank.RIGHT)
         }
     },
 
     KeyF: {
-        discription: 'Fire',
+        description: 'Fire',
         keydown: tankGame => {
             tankGame.player.fire()
         }
     },
 
     KeyQ: {
-        discription: '[Experimental] Yaw left',
+        description: '[Experimental] Yaw left',
         keydown: tankGame => {
             tankGame.player.move(tankGame.player.tank.speed.angle() - 10)
         }
     },
 
     KeyE: {
-        discription: '[Experimental] Yaw right',
+        description: '[Experimental] Yaw right',
         keydown: tankGame => {
             tankGame.player.move(tankGame.player.tank.speed.angle() + 10)
         }
     },
 
     Space: {
-        discription: 'Start/Pause',
+        description: 'Start/Pause',
         keydown: tankGame => {
             if (tankGame.timer.pause == true) tankGame.start()
             else if (tankGame.timer.pause == false) tankGame.pause()
@@ -59,7 +59,7 @@ const KeyActions = {
     },
 
     KeyC: {
-        discription: 'Debug Collision System',
+        description: 'Debug Collision System',
         keydown: () => {
             Config.DEBUG_COLLIDE = !Config.DEBUG_COLLIDE
         }

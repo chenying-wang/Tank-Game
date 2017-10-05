@@ -2,10 +2,6 @@ body {
     margin: 0;
 }
 
-#title {
-    text-align: center;
-}
-
 #content {
     margin: 48px auto;
     display: flex;
@@ -25,11 +21,6 @@ body {
     text-align: center;
 }
 
-#debug {
-    margin: 20px auto;
-    border: 2px dashed rgb(255, 0, 0);
-    padding: 24px 36px;
-    width: 480px;
-    background-color: rgb(255, 230, 230);
-    display: none;
+#title {
+    text-align: center;
 }

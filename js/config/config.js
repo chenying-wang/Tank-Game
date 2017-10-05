@@ -18,11 +18,14 @@ const Config = {
     DEFAULT_CONTROL_MODE: 'mouse',
     TANK_ID: ['bot0', 'bot1', 'bot2', 'bot3', 'bot4', 'bot5', 'bot6', 'bot7', 'bot8', 'bot9'],
     TANK_TYPE: ['dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn'],
+    // TANK_ID: ['player', 'bot0'],
+    // TANK_TYPE: ['dqn', 'agent'],
     PLAYER_ID: 'player',
-    GAME_RATE: 20,
+    GAME_RATE: 10,
     FPS: 50,
 
     // canvas
+    CANVAS_ID: 'game',
     BACKGROUND_COLOR: 'rgb(0, 0, 0)',
 
     // grid

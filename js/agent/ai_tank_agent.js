@@ -16,10 +16,10 @@ class AiTankAgent extends TankAgent {
     _updateStatus() {
         const nearestTank = this._findNearestTank()
         this.status[Config.STATUS_DISTANCE_X] =
-            Math.round(nearestTank.position.minus(this.tank.position).x)
+            Math.round(nearestTank.position.minus(this.tank.position).x) / Config.GRID_X
         this.status[Config.STATUS_DISTANCE_Y] =
-            Math.round(nearestTank.position.minus(this.tank.position).y)
-        this.status[Config.STATUS_SPEED_ANGLE] = Math.round(nearestTank.speed.angle())
+            Math.round(nearestTank.position.minus(this.tank.position).y) / Config.GRID_Y
+        this.status[Config.STATUS_SPEED_ANGLE] = Math.round(nearestTank.speed.angle()) / 360
     }
 
     _findNearestTank() {

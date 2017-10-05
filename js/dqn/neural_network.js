@@ -34,7 +34,7 @@ class NeuralNetwork {
 
         for(let neuron of this.inputLayer) {
             neuron.in = 0
-            neuron.factor = 1
+            neuron.weight = 1
         }
         for(let i = 0; i < this.hiddenLayer.length; i++) {
             for(let neuron of this.hiddenLayer[i]) {
@@ -63,5 +63,15 @@ class NeuralNetwork {
             out.push(neuron.value())
         }
         return out
+    }
+
+    updateWeight(errors) {
+        let sum = 0
+        for(let n of this.inputLayer) {
+            sum += n.in
+        }
+        for(let error of errors) {
+            // log(error)
+        }
     }
 }

@@ -5,7 +5,7 @@ class Neuron {
         this.network = network
         this.type = type
 
-        this.factor = []
+        this.weight = []
         this.bias = 0
         this.in = []
         this.out = 0
@@ -19,7 +19,7 @@ class Neuron {
         for (let arg of neuronArray) {
             if(arg instanceof Neuron) {
                 this.in.push(arg)
-                this.factor.push(1)
+                this.weight.push(1)
             }
         }
     }
@@ -27,13 +27,13 @@ class Neuron {
     value() {
         this.out = this.bias
         if(this.type == 'input') {
-            this.out += this.in * this.factor
+            this.out += this.in * this.weight
             return this.out
         }
         for(let i = 0; i < this.in.length; i++) {
-            this.out += this.in[i].value() * this.factor[i]
+            this.out += this.in[i].value() * this.weight[i]
         }
-        this.out = this._activation(this.out)
+        // this.out = this._activation(this.out)
         return this.out
     }
 
