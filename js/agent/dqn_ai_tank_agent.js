@@ -66,7 +66,7 @@ class DqnAiTankAgent extends AiTankAgent {
         let randomMinibatach = this.replay[index]
         let target
         
-        log(this._actionValueFunction(randomMinibatach[this.STATUS_INDEX]))
+        // log(this._actionValueFunction(randomMinibatach[this.STATUS_INDEX]))
   
         let maxQ = Util.max(this._actionValueFunction(randomMinibatach[this.STATUS_INDEX]))
         target = randomMinibatach[this.REWARD_INDEX] + this.DISCOUNT_FACTOR * maxQ

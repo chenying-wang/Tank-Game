@@ -1,22 +1,11 @@
 "use strict"
 
-const timeOptions = {hour12: false}
-
-const log = (...args) => {
-    if(!Config.DEBUG_LOG) return
-    console.log(...args)
-
-    let time
-    const logDiv = document.getElementById('log')
-    for(let arg of args) {
-        time = (new Date()).toLocaleString('en-US', timeOptions)
-        logDiv.innerHTML = arg + '<br>' + logDiv.innerHTML
-        logDiv.innerHTML = time + ":    " + logDiv.innerHTML
-    }
-}
+let log
 
 class Main {
     static main() {
+        Main.toggleLog(false)
+
         Main.episode = 0
         const canvas = document.getElementById('game')
         Main._setDiscription()
@@ -99,8 +88,16 @@ class Main {
         }
     }
 
-    static toggleLog() {
-        Config.DEBUG_LOG = !Config.DEBUG_LOG
+    static toggleLog(change) {
+        if(change) {
+            Config.DEBUG_LOG = !Config.DEBUG_LOG
+        }
+        document.getElementById('log').value = 'Log: ' + Config.DEBUG_LOG
+        if(Config.DEBUG_LOG) {
+            log = console.log.bind(console)
+        } else {
+            log = (...args) => {}
+        }
     }
 
     static _setDiscription() {
