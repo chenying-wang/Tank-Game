@@ -2,6 +2,7 @@
 
 class TankAgent {
     constructor() {
+        this.die = false
         this.reward = 0
     }
 
@@ -14,6 +15,7 @@ class TankAgent {
     }
 
     loop() {
+        if(this.die) return
         this.fire()
     }
 

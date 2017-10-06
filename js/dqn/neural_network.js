@@ -2,7 +2,7 @@
 
 class NeuralNetwork {
     constructor() {
-        this.layers = [3, 3, 2]
+        this.layers = [2, 3, 36]
         this.inputLayer = []
         this.hiddenLayer = []
         this.outputLayer = []
@@ -14,7 +14,6 @@ class NeuralNetwork {
     }
 
     init() {
-        
         for(let i = 0; i < this.layers.length; i++) {
             for(let j = 0; j < this.layers[i]; j++) {
                 let neuron
@@ -65,13 +64,9 @@ class NeuralNetwork {
         return out
     }
 
-    updateWeight(errors) {
-        let sum = 0
-        for(let n of this.inputLayer) {
-            sum += n.in
-        }
-        for(let error of errors) {
-            // log(error)
-        }
+    updateWeight(status, action, loss) {
+        this.input(status)
+        this.output()
+        this.outputLayer[action].update(loss)
     }
 }

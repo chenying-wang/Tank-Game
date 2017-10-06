@@ -6,13 +6,14 @@ class SimpleAiTankAgent extends AiTankAgent {
     }
     
     loop() {
+        if(this.die) return
         this._updateStatus()
         this._action()
     }
 
     _action() {
-        const dx = this.status[Config.STATUS_DISTANCE_X] * Config.GRID_X
-        const dy = this.status[Config.STATUS_DISTANCE_Y] * Config.GRID_Y
+        const dx = this.status[this.STATUS_DISTANCE_X] * Config.GRID_X
+        const dy = this.status[this.STATUS_DISTANCE_Y] * Config.GRID_Y
         this.move(Vector.new(dx, dy).angle())
         this.fire()
     }

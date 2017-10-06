@@ -72,6 +72,7 @@ class Main {
 
     static _setAgents() {
         for (let i = 0; i < Config.TANK_ID.length; i++) {
+            Main.agents[i].die = false
             Main.mTankGame.setAgent(i, Main.agents[i])
         }
     }

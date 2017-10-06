@@ -18,10 +18,10 @@ const Config = {
     DEFAULT_CONTROL_MODE: 'mouse',
     TANK_ID: ['bot0', 'bot1', 'bot2', 'bot3', 'bot4', 'bot5', 'bot6', 'bot7', 'bot8', 'bot9'],
     TANK_TYPE: ['dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn'],
-    // TANK_ID: ['player', 'bot0'],
-    // TANK_TYPE: ['dqn', 'agent'],
+    // TANK_ID: ['bot0', 'bot1', 'bot2'],
+    // TANK_TYPE: ['dqn', 'dqn', 'dqn'],
     PLAYER_ID: 'player',
-    GAME_RATE: 10,
+    GAME_RATE: 20,
     FPS: 50,
 
     // canvas
@@ -59,9 +59,6 @@ const Config = {
     HP_COLOR_REMAIN: 'rgb(0, 255, 0)',
 
     // status
-    STATUS_DISTANCE_X: 0,
-    STATUS_DISTANCE_Y: 1,
-    STATUS_SPEED_ANGLE: 2,
 
     // reward
     REWARD_DAMAGE: 1,
