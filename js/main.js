@@ -49,21 +49,21 @@ class Main {
     }
 
     static _initAgents() {
-        Main.tankId = Config.TANK_ID
-        Main.tankType = Config.TANK_TYPE
+        Main.agentId = Config.AGENT_ID
+        Main.agentType = Config.AGENT_TYPE
         Main.agents = []
         let agent
-        for (let i = 0; i < Config.TANK_ID.length; i++) {
-            if(Main.tankType[i] == 'agent') {
+        for (let i = 0; i < Config.AGENT_ID.length; i++) {
+            if(Main.agentType[i] == 'agent') {
                 agent = TankAgent.new()
-            } else if(Main.tankType[i] == 'simple') {
+            } else if(Main.agentType[i] == 'simple') {
                 agent = SimpleAiTankAgent.new()
-            } else if(Main.tankType[i] == 'dqn') {
+            } else if(Main.agentType[i] == 'dqn') {
                 agent = DqnAiTankAgent.new()
             } else {
                 agent = AiTankAgent.new()
             }
-            if (Main.tankId[i] == Config.PLAYER_ID) {
+            if (Main.agentId[i] == Config.PLAYER_ID) {
                 Main.player = agent
             }
             Main.agents.push(agent)
@@ -71,7 +71,7 @@ class Main {
     }
 
     static _setAgents() {
-        for (let i = 0; i < Config.TANK_ID.length; i++) {
+        for (let i = 0; i < Config.AGENT_ID.length; i++) {
             Main.agents[i].die = false
             Main.mTankGame.setAgent(i, Main.agents[i])
         }
@@ -80,7 +80,7 @@ class Main {
     static updateTankGame(canvas) {
         log('Episode ' + Main.episode)
         Main.mTankGame = TankGame.new(Main.episode, canvas,
-            Vector.new(Config.GRID_X, Config.GRID_Y), Main.tankId)
+            Vector.new(Config.GRID_X, Config.GRID_Y), Main.agentId)
         Main.mActionController.game = Main.mTankGame
         Main._setAgents()
         if(Main.player) {

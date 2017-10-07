@@ -42,7 +42,7 @@ class DqnAiTankAgent extends AiTankAgent {
         this.lastStatus = this.status
         this.lastReward = this.reward
         this._action()
-        log('reward', this.tank.id, this.reward)
+        // log('reward', this.tank.id, this.reward)
     }
 
     _action() {
@@ -53,7 +53,7 @@ class DqnAiTankAgent extends AiTankAgent {
             this.qNetwork.input(this.status)
             let out = this.qNetwork.output()
 
-            log('out', out)
+            // log('out', out)
             let max = out[0]
             let action = 0
             for (let i = 0; i < out.length; i++) {
@@ -64,7 +64,7 @@ class DqnAiTankAgent extends AiTankAgent {
             }
             this.action = action
         }
-        log('action', this.action)
+        // log('action', this.action)
         this.move(this.action * 10)
         this.fire()
     }

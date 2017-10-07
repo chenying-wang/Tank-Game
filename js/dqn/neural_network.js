@@ -69,4 +69,8 @@ class NeuralNetwork {
         this.output()
         this.outputLayer[action].update(loss)
     }
+
+    dump() {
+        
+    }
 }

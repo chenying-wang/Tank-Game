@@ -2,6 +2,7 @@
 
 class PixelGame {
     constructor(episode, canvas, grid) {
+        this.time = 0
         this.episode = episode
         this._initContext(canvas)
         this._initGrid(grid)
@@ -29,7 +30,7 @@ class PixelGame {
 
     _initTimer() {
         this.timer = Timer.new(() => {
-            this.clear()
+            this._run()
         }, Config.INTERVAL)
     }
 
@@ -37,7 +38,20 @@ class PixelGame {
         this.timer.start()
     }
 
+    _run() {
+        this.time += Config.INTERVAL * Config.GAME_RATE
+        this.clear()
+        if(this.time > Config.GAME_TIMEOUT) {
+            log('Time out')
+            this._over()
+        }
+    }
+
     pause() {
+        this.timer.stop()
+    }
+
+    _over() {
         this.timer.stop()
     }
 

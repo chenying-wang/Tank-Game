@@ -15,7 +15,7 @@ class TankGame extends PixelGame {
         this.tanks = []
         this.agents = []
 
-        for (let i = 0; i < Config.TANK_ID.length; i++) {
+        for (let i = 0; i < Config.AGENT_ID.length; i++) {
             let initX = Math.floor(Util.random(Config.GRID_X))
             let initY = Math.floor(Util.random(Config.GRID_Y))
             let v = Vector.new(initX, initY)
@@ -26,37 +26,42 @@ class TankGame extends PixelGame {
         }
     }
 
-    _initTimer() {
-        this.timer = Timer.new(() => {
-            this.clear()
-            if (this.tanks.length == 1) {
-                this._over()
-                return
-            }
+    _run() {
+        super._run()
 
-            for (let bullet of this.bullets) {
-                bullet.move()
-                bullet.draw()
+        if (this.tanks.length == 1) {
+            this._over()
+            return
+        }
+
+        for (let bullet of this.bullets) {
+            bullet.move()
+            bullet.draw()
+        }
+        for (let tank of this.tanks) {
+            tank.move()
+            tank.cooldown()
+            for (let otherTank of this.tanks) {
+                if(otherTank == tank) continue
+                otherTank.collide(tank)
             }
+            tank.draw()
+        }
+        for (let bullet of this.bullets) {
             for (let tank of this.tanks) {
-                tank.move()
-                tank.cooldown()
-                for (let otherTank of this.tanks) {
-                    if(otherTank == tank) continue
-                    otherTank.collide(tank)
-                }
-                tank.draw()
+                bullet.collide(tank)
             }
-            for (let bullet of this.bullets) {
-                for (let tank of this.tanks) {
-                    bullet.collide(tank)
-                }
-            }
-            for (let agent of this.agents) {
-                if (agent == this.player) continue
-                agent.loop()
-            }
-        }, Config.INTERVAL)
+        }
+        for (let agent of this.agents) {
+            if (agent == this.player) continue
+            agent.loop()
+        }
+    }
+
+    _over() {
+        super._over()
+
+        Main.updateTankGame(this.canvas)
     }
 
     setAgent(id, agent) {
@@ -69,11 +74,6 @@ class TankGame extends PixelGame {
 
     setPlayer(agent) {
         this.player = agent
-    }
-
-    _over() {
-        this.timer.stop()
-        Main.updateTankGame(this.canvas)
     }
 
     deleteTank(tank) {

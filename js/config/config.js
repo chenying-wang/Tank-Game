@@ -15,14 +15,18 @@ const Config = {
     DEBUG_COLLIDE: false,
 
     // basic
-    DEFAULT_CONTROL_MODE: 'mouse',
-    TANK_ID: ['bot0', 'bot1', 'bot2', 'bot3', 'bot4', 'bot5', 'bot6', 'bot7', 'bot8', 'bot9'],
-    TANK_TYPE: ['dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn'],
-    // TANK_ID: ['bot0', 'bot1', 'bot2'],
-    // TANK_TYPE: ['dqn', 'dqn', 'dqn'],
-    PLAYER_ID: 'player',
     GAME_RATE: 20,
     FPS: 50,
+    GAME_TIMEOUT: 60000,
+    DEFAULT_CONTROL_MODE: 'mouse',
+
+    // agent
+    // AGENT_ID: ['bot0', 'bot1', 'bot2', 'bot3', 'bot4', 'bot5', 'bot6', 'bot7', 'bot8', 'bot9'],
+    // AGENT_TYPE: ['dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn'],
+    AGENT_ID: ['bot0', 'bot1', 'bot2'],
+    AGENT_TYPE: ['dqn', 'dqn', 'dqn'],
+    PLAYER_ID: 'player',
+    
 
     // canvas
     CANVAS_ID: 'game',
