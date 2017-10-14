@@ -129,11 +129,29 @@ class Main {
         document.getElementById('log').value = 'Log: ' + Main.log
     }
 
-    static send() {
-        
+    static send(url, content) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', url, true)
+            xhr.setRequestHeader("Content-type", "application/json")
+            xhr.send(content)
+            xhr.onload = () => {
+                if(xhr.status === 200) {
+                    let response
+                    try {
+                        response = xhr.response
+                    } catch (e) {
+                        reject(e)
+                    }
+                    resolve(response)
+                } else {
+                    reject('ERROR')
+                }
+            }
+        })
     }
 
-    static debug() {
+    static async debug() {
         Main.log = Config.DEBUG_LOG
         Main._toggleLog(false)
 
@@ -149,9 +167,14 @@ class Main {
             nn.updateWeight(input[0], 0, loss)
         }
         const nnDump = NeuralNetwork.new()
-        nnDump.load(nn.dump())
+        const factors = nn.dump()
+        nnDump.load(factors)
         nnDump.input(input[0])
         log('nn', nn.output())
         log('nnDump', nnDump.output())
+        log('factors', factors)
+        await Main.send('php/file.php', JSON.stringify(factors))
+        let result = await Main.send('php/file.php', '_GET_')
+        log('result', JSON.parse(result))  
     }
 }
