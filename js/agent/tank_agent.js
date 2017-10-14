@@ -6,12 +6,12 @@ class TankAgent {
         this.reward = 0
     }
 
-    init() {
-        this.reward = 0
-    }
-
     static new(...args) {
         return new this(...args)
+    }
+
+    init() {
+        this.reward = 0
     }
 
     loop() {

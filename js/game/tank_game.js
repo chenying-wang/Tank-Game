@@ -8,7 +8,6 @@ class TankGame extends PixelGame {
         this.clear()
         this._initTanks()
         this.bullets = []
-        this._initTimer()
     }
 
     _initTanks() {
@@ -29,23 +28,21 @@ class TankGame extends PixelGame {
     _run() {
         super._run()
 
-        if (this.tanks.length == 1) {
+        if (this.tanks.length === 1) {
             this._over()
             return
         }
 
         for (let bullet of this.bullets) {
             bullet.move()
-            bullet.draw()
         }
         for (let tank of this.tanks) {
             tank.move()
             tank.cooldown()
             for (let otherTank of this.tanks) {
-                if(otherTank == tank) continue
+                if(otherTank === tank) continue
                 otherTank.collide(tank)
             }
-            tank.draw()
         }
         for (let bullet of this.bullets) {
             for (let tank of this.tanks) {
@@ -53,8 +50,19 @@ class TankGame extends PixelGame {
             }
         }
         for (let agent of this.agents) {
-            if (agent == this.player) continue
+            if (agent === this.player) continue
             agent.loop()
+        }
+    }
+
+    _uiRun() {
+        super._uiRun()
+
+        for (let bullet of this.bullets) {
+            bullet.draw()
+        }
+        for (let tank of this.tanks) {
+            tank.draw()
         }
     }
 

@@ -16,8 +16,9 @@ class Bullet extends Entity {
 
     collideCallback(entity) {
         if(entity instanceof Tank) {
-            if(entity == this.attacker) return
-            this.attacker.agent.reward += Config.REWARD_DAMAGE
+            if(entity === this.attacker) return
+            this.attacker.agent.reward += Config.REWARD_ATTACK
+            entity.agent.reward += Config.REWARD_DAMAGE
             entity.damage(this.attack)
             this.clear()
         }

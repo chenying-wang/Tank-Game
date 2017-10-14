@@ -2,6 +2,7 @@
 
 window.onload = () => {
     Main.main()
+    // Main.debug()
 }
 
 let log
@@ -31,7 +32,7 @@ class Main {
 
     static _setDescription() {
         const div = document.getElementById('description-content')
-        if (div == null) return
+        if (div === null) return
         for (let action in KeyActions) {
             let description = "[" + action + "]" + " : " + KeyActions[action].description
             div.innerHTML += "<p>" + description + "</p>"
@@ -54,16 +55,16 @@ class Main {
         Main.agents = []
         let agent
         for (let i = 0; i < Config.AGENT_ID.length; i++) {
-            if(Main.agentType[i] == 'agent') {
+            if(Main.agentType[i] === 'agent') {
                 agent = TankAgent.new()
-            } else if(Main.agentType[i] == 'simple') {
+            } else if(Main.agentType[i] === 'simple') {
                 agent = SimpleAiTankAgent.new()
-            } else if(Main.agentType[i] == 'dqn') {
+            } else if(Main.agentType[i] === 'dqn') {
                 agent = DqnAiTankAgent.new()
             } else {
                 agent = AiTankAgent.new()
             }
-            if (Main.agentId[i] == Config.PLAYER_ID) {
+            if (Main.agentId[i] === Config.PLAYER_ID) {
                 Main.player = agent
             }
             Main.agents.push(agent)
@@ -93,9 +94,9 @@ class Main {
     static _toggleControlMode(controlMode) {
         if (controlMode != 'KEEP') {
             Main.mActionController.removeActions(Main.controlMode)
-            if (Main.controlMode == 'test') {
+            if (Main.controlMode === 'test') {
                 Main.controlMode = 'mouse'
-            } else if(Main.controlMode == 'mouse') {
+            } else if(Main.controlMode === 'mouse') {
                 Main.controlMode = 'keyboard'
             } else {
                 Main.controlMode = 'test'
@@ -107,9 +108,9 @@ class Main {
 
     static _toggleDescription() {
         const div = document.getElementById('description-content')
-        if (div.style.visibility == 'visible') {
+        if (div.style.visibility === 'visible') {
             div.style.visibility = 'hidden'
-        } else if (div.style.visibility == 'hidden') {
+        } else if (div.style.visibility === 'hidden') {
             div.style.visibility = 'visible'
         } else {
             div.style.visibility = 'hidden'
@@ -126,5 +127,23 @@ class Main {
             log = () => {}
         }
         document.getElementById('log').value = 'Log: ' + Main.log
+    }
+
+    static debug() {
+        Main.log = Config.DEBUG_LOG
+        Main._toggleLog(false)
+
+        const nn = NeuralNetwork.new(3, 3, 1)
+        const input = [[1, 1, 1]]
+        const actualOutput = [0.8]
+        log('DEBUG')
+        let out, loss
+        for(let i = 0; i < 100; i++) {
+            nn.input(input[0])
+            out = nn.output()
+            loss = actualOutput[0] - out
+            nn.updateWeight(input[0], 0, loss)
+            if(i % 10 === 0) log('out', out)
+        }
     }
 }

@@ -53,8 +53,8 @@ const KeyActions = {
     Space: {
         description: 'Start/Pause',
         keydown: tankGame => {
-            if (tankGame.timer.pause == true) tankGame.start()
-            else if (tankGame.timer.pause == false) tankGame.pause()
+            if (tankGame.timer.pause === true) tankGame.start()
+            else if (tankGame.timer.pause === false) tankGame.pause()
         }
     },
 

@@ -3,10 +3,12 @@
 const Config = {
 
     _init: () => {
-        Config.INTERVAL = 1000 / (Config.FPS * Config.GAME_RATE)
-        Config.TANK_SPEED /= Config.FPS
-        Config.BULLET_SPEED /= Config.FPS
-        Config.TANK_COOLDOWN *= Config.FPS
+        Config.INTERVAL = 1000 / (Config.GAME_UPDATE_RATE * Config.GAME_SPEED)
+        Config.TANK_SPEED /= Config.GAME_UPDATE_RATE
+        Config.BULLET_SPEED /= Config.GAME_UPDATE_RATE
+        Config.TANK_COOLDOWN *= Config.GAME_UPDATE_RATE
+
+        Config.UI_INTERVAL = 1000 / Config.FPS
     },
 
     // debug
@@ -15,9 +17,10 @@ const Config = {
     DEBUG_COLLIDE: false,
 
     // basic
-    GAME_RATE: 20,
-    FPS: 50,
-    GAME_TIMEOUT: 60000,
+    GAME_UPDATE_RATE: 50,
+    GAME_SPEED: 10,
+    FPS: 10,
+    GAME_TIMEOUT: 600000,
     DEFAULT_CONTROL_MODE: 'mouse',
 
     // agent
@@ -65,8 +68,9 @@ const Config = {
     // status
 
     // reward
-    REWARD_DAMAGE: 1,
-    REWARD_DIE: -5
+    REWARD_ATTACK: 1,
+    REWARD_DAMAGE: -1,
+    REWARD_DIE: -15
 }
 
 Config._init()

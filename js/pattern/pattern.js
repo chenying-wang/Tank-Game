@@ -19,9 +19,9 @@ class Pattern {
     }
 
     draw() {
-        if(this.mode == 'none') return
+        if(this.mode === 'none') return
         this._drawPattern()
-        if(this.mode == 'tree') {
+        if(this.mode === 'tree') {
             for (let pattern of this.patterns) {
                 pattern._drawPattern()
             }

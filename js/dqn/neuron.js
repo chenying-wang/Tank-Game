@@ -2,7 +2,7 @@
 
 class Neuron {
     constructor(network, type) {
-        this.LEARNING_RATE = 0.1
+        this.LEARNING_RATE = 0.01
 
         this.network = network
         this.type = type
@@ -28,23 +28,22 @@ class Neuron {
 
     value() {
         this.out = this.bias
-        if(this.type == 'input') {
+        if(this.type === 'input') {
             this.out += this.in * this.weight
-            this.activativeOut = this.out
-            return this.activativeOut
+            return this.out
         }
         for(let i = 0; i < this.in.length; i++) {
             this.out += this.in[i].value() * this.weight[i]
         }
-        this.activativeOut = this._activation(this.out)
-        return this.activativeOut
+        this.out = this._activation(this.out)
+        return this.out
     }
 
     update(loss) {
-        if(this.type == 'input') return
+        if(this.type === 'input') return
         let correct = []
         for(let i = 0; i < this.in.length; i++) {
-            correct.push(this.LEARNING_RATE * loss  * this.out * this.in[i].activativeOut)
+            correct.push(this.LEARNING_RATE * loss  * this.out * (1 - this.out) * this.in[i].out)
             this.in[i].update(this.weight[i] * loss)
         }
         for(let i = 0; i < this.in.length; i++) {
@@ -55,12 +54,6 @@ class Neuron {
     _activation(x) {
         let y
         y = 1 / (1 + Math.E ** (-x))
-        return y
-    }
-
-    _activationDerivative(x) {
-        let y
-        y = this._activation(x) * this._activation(1 - x)
         return y
     }
 }

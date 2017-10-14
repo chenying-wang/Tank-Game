@@ -1,30 +1,30 @@
 "use strict"
 
 class NeuralNetwork {
-    constructor() {
-        this.layers = [2, 3, 36]
-        this.inputLayer = []
-        this.hiddenLayer = []
-        this.outputLayer = []
-        this.init()
+    constructor(...args) {
+        this.layers = [...args]
+        this._init()
     }
 
     static new(...args) {
         return new this(...args)
     }
 
-    init() {
+    _init() {
+        this.inputLayer = []
+        this.hiddenLayer = []
+        this.outputLayer = []
         for(let i = 0; i < this.layers.length; i++) {
             for(let j = 0; j < this.layers[i]; j++) {
                 let neuron
-                if(i == 0) {
+                if(i === 0) {
                     neuron = Neuron.new(this, 'input')
                     this.inputLayer.push(neuron)
-                } else if(i == this.layers.length - 1) {
+                } else if(i === this.layers.length - 1) {
                     neuron = Neuron.new(this, 'output')
                     this.outputLayer.push(neuron)
                 } else {
-                    if(j == 0) this.hiddenLayer.push([])
+                    if(j === 0) this.hiddenLayer.push([])
                     neuron = Neuron.new(this, 'hidden')
                     this.hiddenLayer[i - 1].push(neuron)
                 }
@@ -64,13 +64,19 @@ class NeuralNetwork {
         return out
     }
 
-    updateWeight(status, action, loss) {
-        this.input(status)
+    updateWeight(input, ouputIndex, loss) {
+        this.input(input)
         this.output()
-        this.outputLayer[action].update(loss)
+        this.outputLayer[ouputIndex].update(loss)
     }
 
     dump() {
-        
+        let factors = {}
+        factors.layers = this.layers
+    }
+
+    load(factors) {
+        this.layers = factors.layers
+        this._init()
     }
 }

@@ -5,10 +5,11 @@ class Tank extends Entity {
         super(tankGame, position, id)
 
         this.patterns.push(TankPattern.new(this))
-        if (this.id == Config.PLAYER_ID) {
-            this.patterns.push(CooldownIndicator.new(this, Vector.new(16, 16), this.game.origin))
-            this.patterns.push(RewardIndicator.new(this, Vector.new(32, 16), this.game.origin))
-        }
+        
+        let number = window.parseInt((new RegExp("[0-9]*$")).exec(this.id))
+        this.patterns.push(CooldownIndicator.new(this, Vector.new(number * 32 + 16, 16), this.game.origin))
+        this.patterns.push(RewardIndicator.new(this, Vector.new(number * 32 + 32, 16), this.game.origin))
+        
         this.patterns.push(HpIndicator.new(this, Vector.new(0, Math.floor(Config.TANK_HEIGHT / 1.5))))
 
         this.size.set(Config.TANK_WIDTH, Config.TANK_HEIGHT)
@@ -69,13 +70,12 @@ class Tank extends Entity {
             if(dx > dy) {
                 offset.x = (dxmin - dx) / 2
                 offset.x *= Math.sign(Math.sin(angle * Math.PI / 180))
-                offset.y = offset.x / Math.tan(angle * Math.PI /180)
-
+                offset.y = offset.x / Math.tan(angle * Math.PI / 180)
             }
             else {
                 offset.y = (dymin - dy) / 2
                 offset.y *= Math.sign(Math.cos(angle * Math.PI / 180))
-                offset.x = offset.y * Math.tan(angle * Math.PI /180)
+                offset.x = offset.y * Math.tan(angle * Math.PI / 180)
             }
             this.position.minusEqual(offset)
             entity.position.addEqual(offset)

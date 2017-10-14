@@ -7,6 +7,7 @@ class PixelGame {
         this._initContext(canvas)
         this._initGrid(grid)
         this._initTimer()
+        this._initUiTimer()
     }
 
     static new(...args) {
@@ -34,25 +35,37 @@ class PixelGame {
         }, Config.INTERVAL)
     }
 
+    _initUiTimer() {
+        this.uiTimer = Timer.new(() => {
+            this._uiRun()
+        }, Config.UI_INTERVAL)
+    }
+
     start() {
         this.timer.start()
+        this.uiTimer.start()
     }
 
     _run() {
-        this.time += Config.INTERVAL * Config.GAME_RATE
-        this.clear()
+        this.time += Config.GAME_UPDATE_RATE 
         if(this.time > Config.GAME_TIMEOUT) {
             log('Time out')
             this._over()
         }
     }
 
+    _uiRun() {
+        this.clear()
+    }
+
     pause() {
         this.timer.stop()
+        this.uiTimer.stop()
     }
 
     _over() {
         this.timer.stop()
+        this.uiTimer.stop()
     }
 
     drawRect(position, color, size = Vector.new(1, 1), angle = Entity.UP, style = undefined) {
