@@ -1,8 +1,8 @@
 "use strict"
 
 window.onload = () => {
-    Main.main()
-    // Main.debug()
+    // Main.main()
+    Main.debug()
 }
 
 let log
@@ -129,6 +129,10 @@ class Main {
         document.getElementById('log').value = 'Log: ' + Main.log
     }
 
+    static send() {
+        
+    }
+
     static debug() {
         Main.log = Config.DEBUG_LOG
         Main._toggleLog(false)
@@ -138,12 +142,16 @@ class Main {
         const actualOutput = [0.8]
         log('DEBUG')
         let out, loss
-        for(let i = 0; i < 100; i++) {
+        for(let i = 0; i < 5000; i++) {
             nn.input(input[0])
             out = nn.output()
             loss = actualOutput[0] - out
             nn.updateWeight(input[0], 0, loss)
-            if(i % 10 === 0) log('out', out)
         }
+        const nnDump = NeuralNetwork.new()
+        nnDump.load(nn.dump())
+        nnDump.input(input[0])
+        log('nn', nn.output())
+        log('nnDump', nnDump.output())
     }
 }

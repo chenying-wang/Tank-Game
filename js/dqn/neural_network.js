@@ -73,10 +73,32 @@ class NeuralNetwork {
     dump() {
         let factors = {}
         factors.layers = this.layers
+        factors.weight = []
+        for(let i = 0; i < this.layers.length - 1; i++) {
+            factors.weight.push([])
+            for(let j = 0; j < this.layers[i + 1]; j++) {
+                if(i === this.layers.length - 2) {
+                    factors.weight[i].push(this.outputLayer[j].weight)
+                } else {
+                    factors.weight[i].push(this.hiddenLayer[i][j].weight)
+                }
+            }
+        }
+        return factors
     }
 
     load(factors) {
         this.layers = factors.layers
         this._init()
+
+        for(let i = 0; i < this.layers.length - 1; i++) {
+            for(let j = 0; j < this.layers[i + 1]; j++) {
+                if(i === this.layers.length - 2) {
+                    this.outputLayer[j].weight = factors.weight[i][j]
+                } else {
+                    this.hiddenLayer[i][j].weight = factors.weight[i][j]
+                }
+            }
+        }
     }
 }
