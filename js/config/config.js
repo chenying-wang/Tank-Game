@@ -13,7 +13,6 @@ const Config = {
 
     // debug
     DEBUG_LOG: true,
-    DEBUG_DRAW: false,
     DEBUG_COLLIDE: false,
 
     // basic
@@ -64,8 +63,6 @@ const Config = {
     HP_HEIGHT: 2,
     HP_COLOR: 'rgb(255, 0, 0)',
     HP_COLOR_REMAIN: 'rgb(0, 255, 0)',
-
-    // status
 
     // reward
     REWARD_ATTACK: 1,

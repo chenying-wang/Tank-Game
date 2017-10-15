@@ -151,6 +151,24 @@ class Main {
         })
     }
 
+    static dumpAgent() {
+        let factors = {}
+        for(let agent of Main.agents) {
+            factors.name = agent.id + '.json'
+            factors = agent.dump()
+            Main.send('php/save.php', JSON.stringify(factors))
+        }
+    }
+
+    static async loadAgent() {
+        let factors = {}
+        for(let agent of Main.agents) {
+            factors.name = agent.id + '.json'
+            factors = await Main.send('php/load.php', JSON.stringify(factors))
+            agent.load(factors)
+        }
+    }
+
     static async debug() {
         Main.log = Config.DEBUG_LOG
         Main._toggleLog(false)
@@ -173,8 +191,9 @@ class Main {
         log('nn', nn.output())
         log('nnDump', nnDump.output())
         log('factors', factors)
-        await Main.send('php/file.php', JSON.stringify(factors))
-        let result = await Main.send('php/file.php', '_GET_')
+        factors.name = 'test.json'
+        await Main.send('php/save.php', JSON.stringify(factors))
+        let result = await Main.send('php/load.php', JSON.stringify({'name': 'test.json'}))
         log('result', JSON.parse(result))  
     }
 }
