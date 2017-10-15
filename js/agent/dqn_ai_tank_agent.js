@@ -110,4 +110,13 @@ class DqnAiTankAgent extends AiTankAgent {
             this.frameIndex = 0
         }
     }
+
+    dump() {
+        return this.qNetwork.dump()
+    }
+
+    load(factors) {
+        this.qNetwork.load(factors)
+        this.targetQNetwork = this.qNetwork
+    }
 }

@@ -1,8 +1,8 @@
 "use strict"
 
 window.onload = () => {
-    // Main.main()
-    Main.debug()
+    Main.main()
+    // Main.debug()
 }
 
 let log
@@ -64,11 +64,28 @@ class Main {
             } else {
                 agent = AiTankAgent.new()
             }
-            if (Main.agentId[i] === Config.PLAYER_ID) {
+            agent.id = Main.agentId[i]
+            if (agent.id === Config.PLAYER_ID) {
                 Main.player = agent
             }
             Main.agents.push(agent)
         }
+        Main.loadAgent()
+    }
+
+    static updateTankGame(canvas) {
+        log('Episode ' + Main.episode)
+        Main.dumpAgent()
+        Main.mTankGame = TankGame.new(Main.episode, canvas,
+            Vector.new(Config.GRID_X, Config.GRID_Y), Main.agentId)
+        Main.mActionController.game = Main.mTankGame
+
+        Main._setAgents()
+        if(Main.player) {
+            Main.mTankGame.setPlayer(Main.player)
+        }
+        Main.mTankGame.start()
+        Main.episode++
     }
 
     static _setAgents() {
@@ -76,19 +93,6 @@ class Main {
             Main.agents[i].die = false
             Main.mTankGame.setAgent(i, Main.agents[i])
         }
-    }
-
-    static updateTankGame(canvas) {
-        log('Episode ' + Main.episode)
-        Main.mTankGame = TankGame.new(Main.episode, canvas,
-            Vector.new(Config.GRID_X, Config.GRID_Y), Main.agentId)
-        Main.mActionController.game = Main.mTankGame
-        Main._setAgents()
-        if(Main.player) {
-            Main.mTankGame.setPlayer(Main.player)
-        }
-        Main.mTankGame.start()
-        Main.episode++
     }
 
     static _toggleControlMode(controlMode) {
@@ -154,18 +158,21 @@ class Main {
     static dumpAgent() {
         let factors = {}
         for(let agent of Main.agents) {
-            factors.name = agent.id + '.json'
             factors = agent.dump()
+            log(factors)
+            factors.name = agent.id + '.json'
             Main.send('php/save.php', JSON.stringify(factors))
         }
     }
 
     static async loadAgent() {
-        let factors = {}
+        let factors
         for(let agent of Main.agents) {
-            factors.name = agent.id + '.json'
-            factors = await Main.send('php/load.php', JSON.stringify(factors))
-            agent.load(factors)
+            factors = await Main.send('php/load.php', JSON.stringify({'name': agent.id + '.json'}))
+            factors = JSON.parse(factors)
+            if(factors) {
+                agent.load(factors)
+            }
         }
     }
 
