@@ -8,7 +8,7 @@ window.onload = () => {
 let log
 
 class Main {
-    static main() {
+    static async main() {
         Main.log = Config.DEBUG_LOG
         Main._toggleLog(false) 
         Main._setDescription()
@@ -24,8 +24,9 @@ class Main {
     
         Main._initActionController()
 
-        Main.episode = 0
         Main._initAgents()
+        Main.load = false
+        await Main._loadAgents()
         const canvas = document.getElementById(Config.CANVAS_ID)
         Main.updateTankGame(canvas)
     }
@@ -54,7 +55,7 @@ class Main {
         Main.agentType = Config.AGENT_TYPE
         Main.agents = []
         let agent
-        for (let i = 0; i < Config.AGENT_ID.length; i++) {
+        for (let i = 0; i < Main.agentId.length; i++) {
             if(Main.agentType[i] === 'agent') {
                 agent = TankAgent.new()
             } else if(Main.agentType[i] === 'simple') {
@@ -70,12 +71,15 @@ class Main {
             }
             Main.agents.push(agent)
         }
-        Main.loadAgent()
     }
 
-    static updateTankGame(canvas) {
+    static async updateTankGame(canvas) {
+        if(Main.load === false) {
+            await Main._dumpAgents()
+        }
+
+        Main.load = false
         log('Episode ' + Main.episode)
-        Main.dumpAgent()
         Main.mTankGame = TankGame.new(Main.episode, canvas,
             Vector.new(Config.GRID_X, Config.GRID_Y), Main.agentId)
         Main.mActionController.game = Main.mTankGame
@@ -89,10 +93,86 @@ class Main {
     }
 
     static _setAgents() {
-        for (let i = 0; i < Config.AGENT_ID.length; i++) {
+        for (let i = 0; i < Main.agentId.length; i++) {
             Main.agents[i].die = false
             Main.mTankGame.setAgent(i, Main.agents[i])
         }
+    }
+
+    static async _dumpAgents() {
+        return new Promise(async (resolve, reject) => {
+            if(Main.episode % Config.DUMP_FREQUENCY !== 0) {
+                log('no')
+                resolve()
+            }
+
+            let manifest = {}
+            manifest.name = 'result/manifest.json'
+            manifest.episode = Main.episode
+            manifest.time = Date.now()
+            await Main._send('php/save.php', JSON.stringify(manifest))
+            
+            let factors
+            for(let agent of Main.agents) {
+                factors = agent.dump()
+                log('dump', agent.id, factors)
+                factors.name = 'result/' + manifest.time + '/' + agent.id + '.json'
+                await Main._send('php/save.php', JSON.stringify(factors))
+            }
+            resolve()
+        })
+    }
+
+    static async _loadAgents() {
+        return new Promise(async (resolve, reject) => {
+            let manifest = {'name': 'result/manifest.json'}
+            manifest = await Main._send('php/load.php', JSON.stringify(manifest))
+            manifest = JSON.parse(manifest)
+            log('manifest', manifest)
+            if(manifest){
+                Main.load = true
+                Main.episode = manifest.episode
+                Main.time = manifest.time
+            } else {
+                Main.episode = 0
+                Main.time = 0
+                resolve()
+            }
+            
+            let factors
+            for(let agent of Main.agents) {
+                factors = {'name': 'result/'+ Main.time + '/' + agent.id + '.json'}
+                factors = await Main._send('php/load.php', JSON.stringify(factors))
+                factors = JSON.parse(factors)
+                log('load', agent.id, factors)
+                if(factors) {
+                    agent.load(factors)
+                }
+            }
+            resolve()
+        })
+    }
+
+    static _send(url, content = {}) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', url, true)
+            xhr.setRequestHeader("Content-type", "application/json")
+            xhr.onload = () => {
+                if(xhr.status === 200) {
+                    let response
+                    try {
+                        response = xhr.response
+                    } catch (e) {
+                        reject(e)
+                    }
+                    resolve(response)
+                } else {
+                    reject('ERROR')
+                }
+            }
+            xhr.send(content)
+        })
     }
 
     static _toggleControlMode(controlMode) {
@@ -133,49 +213,6 @@ class Main {
         document.getElementById('log').value = 'Log: ' + Main.log
     }
 
-    static send(url, content) {
-        return new Promise((resolve, reject) => {
-            let xhr = new XMLHttpRequest()
-            xhr.open('POST', url, true)
-            xhr.setRequestHeader("Content-type", "application/json")
-            xhr.send(content)
-            xhr.onload = () => {
-                if(xhr.status === 200) {
-                    let response
-                    try {
-                        response = xhr.response
-                    } catch (e) {
-                        reject(e)
-                    }
-                    resolve(response)
-                } else {
-                    reject('ERROR')
-                }
-            }
-        })
-    }
-
-    static dumpAgent() {
-        let factors = {}
-        for(let agent of Main.agents) {
-            factors = agent.dump()
-            log(factors)
-            factors.name = agent.id + '.json'
-            Main.send('php/save.php', JSON.stringify(factors))
-        }
-    }
-
-    static async loadAgent() {
-        let factors
-        for(let agent of Main.agents) {
-            factors = await Main.send('php/load.php', JSON.stringify({'name': agent.id + '.json'}))
-            factors = JSON.parse(factors)
-            if(factors) {
-                agent.load(factors)
-            }
-        }
-    }
-
     static async debug() {
         Main.log = Config.DEBUG_LOG
         Main._toggleLog(false)
@@ -199,8 +236,8 @@ class Main {
         log('nnDump', nnDump.output())
         log('factors', factors)
         factors.name = 'test.json'
-        await Main.send('php/save.php', JSON.stringify(factors))
-        let result = await Main.send('php/load.php', JSON.stringify({'name': 'test.json'}))
+        await Main._send('php/save.php', JSON.stringify(factors))
+        let result = await Main._send('php/load.php', JSON.stringify({'name': 'test.json'}))
         log('result', JSON.parse(result))  
     }
 }

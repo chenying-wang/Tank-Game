@@ -18,17 +18,17 @@ const Config = {
     // basic
     GAME_UPDATE_RATE: 50,
     GAME_SPEED: 10,
-    FPS: 10,
-    GAME_TIMEOUT: 600000,
+    FPS: 30,
+    GAME_TIMEOUT: 60 * 1000,
     DEFAULT_CONTROL_MODE: 'mouse',
+    PLAYER_ID: 'player',
+    DUMP_FREQUENCY: 10,
 
     // agent
     // AGENT_ID: ['bot0', 'bot1', 'bot2', 'bot3', 'bot4', 'bot5', 'bot6', 'bot7', 'bot8', 'bot9'],
     // AGENT_TYPE: ['dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn'],
     AGENT_ID: ['bot0', 'bot1', 'bot2'],
     AGENT_TYPE: ['dqn', 'dqn', 'dqn'],
-    PLAYER_ID: 'player',
-    
 
     // canvas
     CANVAS_ID: 'game',

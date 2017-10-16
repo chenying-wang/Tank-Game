@@ -6,7 +6,7 @@ class DqnAiTankAgent extends AiTankAgent {
 
         this.EXPLORERATION = 0.05
         this.DISCOUNT_FACTOR = 0.99
-        this.ACTION_REPEAT = 16
+        this.ACTION_REPEAT = 50
         this.TARGET_UPDATE_FREQUENCY = 10000
 
         this.REPLAY_CAPACITY = 10000

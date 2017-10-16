@@ -47,7 +47,7 @@ class PixelGame {
     }
 
     _run() {
-        this.time += Config.GAME_UPDATE_RATE 
+        this.time += 1000 / Config.GAME_UPDATE_RATE
         if(this.time > Config.GAME_TIMEOUT) {
             log('Time out')
             this._over()

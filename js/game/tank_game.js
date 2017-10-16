@@ -14,7 +14,7 @@ class TankGame extends PixelGame {
         this.tanks = []
         this.agents = []
 
-        for (let i = 0; i < Config.AGENT_ID.length; i++) {
+        for (let i = 0; i < Main.agentId.length; i++) {
             let initX = Math.floor(Util.random(Config.GRID_X))
             let initY = Math.floor(Util.random(Config.GRID_Y))
             let v = Vector.new(initX, initY)
