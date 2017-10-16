@@ -17,9 +17,9 @@ const Config = {
 
     // basic
     GAME_UPDATE_RATE: 50,
-    GAME_SPEED: 10,
+    GAME_SPEED: 5,
     FPS: 30,
-    GAME_TIMEOUT: 60 * 1000,
+    GAME_TIMEOUT: 20 * 1000,
     DEFAULT_CONTROL_MODE: 'mouse',
     PLAYER_ID: 'player',
     DUMP_FREQUENCY: 10,

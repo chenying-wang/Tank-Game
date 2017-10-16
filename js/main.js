@@ -102,8 +102,8 @@ class Main {
     static async _dumpAgents() {
         return new Promise(async (resolve, reject) => {
             if(Main.episode % Config.DUMP_FREQUENCY !== 0) {
-                log('no')
                 resolve()
+                return
             }
 
             let manifest = {}
@@ -137,6 +137,7 @@ class Main {
                 Main.episode = 0
                 Main.time = 0
                 resolve()
+                return
             }
             
             let factors
