@@ -5,9 +5,9 @@ class DqnAiTankAgent extends AiTankAgent {
         super()
 
         this.EXPLORERATION = 0.05
-        this.DISCOUNT_FACTOR = 0.99
+        this.DISCOUNT_FACTOR = 0.8
         this.ACTION_REPEAT = 50
-        this.TARGET_UPDATE_FREQUENCY = 10000
+        this.TARGET_UPDATE_FREQUENCY = 100
 
         this.REPLAY_CAPACITY = 10000
         this.STATUS_INDEX = 0
@@ -22,8 +22,8 @@ class DqnAiTankAgent extends AiTankAgent {
         this.lastReward = 0
         this.replay = []
 
-        this.qNetwork  = NeuralNetwork.new(2, 72, 36)
-        this.targetQNetwork = this.qNetwork
+        this.qNetwork  = NeuralNetwork.new(this.STATUS_NUMBERS, 12, 24, 12, this.ACTION_NUMBERS)
+        this.targetQNetwork = NeuralNetwork.new(this.STATUS_NUMBERS, 12, 24, 12, this.ACTION_NUMBERS)
     }
 
     init() {
@@ -34,18 +34,17 @@ class DqnAiTankAgent extends AiTankAgent {
 
     _actionValueFunction(status, network = this.qNetwork) {
         this.qNetwork.input(status)
-        return this.qNetwork.output()
+        return network.output()
     }
 
     loop() {
+        if(this.die) return
         this.frameIndex++
         // if(this.tank.id === 'bot0') log(this.frameIndex)
-
-        if(this.die) return
         this._updateStatus()
         this._storeTransition()
         this._updateActionValueFunction()
-
+        
         this.lastStatus = this.status
         this.lastReward = this.reward
         this._action()
@@ -62,11 +61,11 @@ class DqnAiTankAgent extends AiTankAgent {
                 this.qNetwork.input(this.status)
                 let out = this.qNetwork.output()
 
-                // if(this.tank.id === 'bot0') log('out', this.tank.id, out)
+                if(this.tank.id === 'bot0') log('out', this.tank.id, out)
                 let max = out[0]
                 let action = 0
-                for (let i = 0; i < out.length; i++) {
-                    if(max < out[i]) {
+                for(let i = 1; i < out.length; i++) {
+                    if(out[i] > max) {
                         max = out[i]
                         action = i
                     }
@@ -75,7 +74,7 @@ class DqnAiTankAgent extends AiTankAgent {
             }
             // if(this.tank.id === 'bot0') log('action', this.tank.id, this.action)
         }
-        this.move(this.action * 10)
+        this.move(this.action * this.DIFF_ANGLE)
         this.fire()
     }
 
@@ -92,21 +91,27 @@ class DqnAiTankAgent extends AiTankAgent {
     }
 
     _updateActionValueFunction() {
+        if(this.frameIndex % this.ACTION_REPEAT !== 0) return
         const index = Math.floor(Util.random(this.replay.length))
         let randomMinibatach = this.replay[index]
-        let maxNextQ, target, currentQ, loss
+        let maxNextQ, target, currentQ, loss, lossArray
 
-        maxNextQ = Util.max(this._actionValueFunction(randomMinibatach[this.NEXT_STATUS_INDEX], this.targetQNetwork))
+        maxNextQ = Util.max(
+            this._actionValueFunction(randomMinibatach[this.NEXT_STATUS_INDEX], this.targetQNetwork))
         // r + gamma * max(Q(s+1, a))
         target = randomMinibatach[this.REWARD_INDEX] + this.DISCOUNT_FACTOR * maxNextQ
         currentQ = this._actionValueFunction(randomMinibatach[this.STATUS_INDEX])[randomMinibatach[this.ACTION_INDEX]]
 
         loss = target - currentQ
-        this.qNetwork.updateWeight(randomMinibatach[this.STATUS_INDEX],
-                randomMinibatach[this.ACTION_INDEX],
-                loss)
+        if(this.tank.id === 'bot0') log('loss', loss)
+
+        lossArray = Array(36).fill(0)
+        lossArray[randomMinibatach[this.ACTION_INDEX]] = loss
+        this._actionValueFunction(randomMinibatach[this.STATUS_INDEX])
+        this.qNetwork.updateWeight(lossArray)
+
         if(this.frameIndex % this.TARGET_UPDATE_FREQUENCY === 0) {
-            this.targetQNetwork = this.qNetwork
+            this.targetQNetwork.clone(this.qNetwork)
             this.frameIndex = 0
         }
     }
@@ -117,6 +122,6 @@ class DqnAiTankAgent extends AiTankAgent {
 
     load(factors) {
         this.qNetwork.load(factors)
-        this.targetQNetwork = this.qNetwork
+        this.targetQNetwork.clone(this.qNetwork)
     }
 }

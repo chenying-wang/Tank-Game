@@ -18,14 +18,14 @@ class NeuralNetwork {
             for(let j = 0; j < this.layers[i]; j++) {
                 let neuron
                 if(i === 0) {
-                    neuron = Neuron.new(this, 'input')
+                    neuron = InputNeuron.new(this)
                     this.inputLayer.push(neuron)
                 } else if(i === this.layers.length - 1) {
-                    neuron = Neuron.new(this, 'output')
+                    neuron = OutputNeuron.new(this)
                     this.outputLayer.push(neuron)
                 } else {
                     if(j === 0) this.hiddenLayer.push([])
-                    neuron = Neuron.new(this, 'hidden')
+                    neuron = HiddenNeuron.new(this)
                     this.hiddenLayer[i - 1].push(neuron)
                 }
             }
@@ -57,6 +57,14 @@ class NeuralNetwork {
     }
 
     output() {
+        for(let neuron of this.inputLayer) {
+            neuron.value()
+        }
+        for(let i = 0; i < this.hiddenLayer.length; i++) {
+            for(let neuron of this.hiddenLayer[i]) {
+                neuron.value()
+            }
+        }
         let out = []
         for(let neuron of this.outputLayer) {
             out.push(neuron.value())
@@ -64,10 +72,24 @@ class NeuralNetwork {
         return out
     }
 
-    updateWeight(input, ouputIndex, loss) {
-        this.input(input)
-        this.output()
-        this.outputLayer[ouputIndex].update(loss)
+    updateWeight(loss) {
+        let lossNext = [], j
+        for(let i = this.layers.length - 1; i > 0; i--) {
+            j = 0
+            if(i > 1) lossNext = Array(this.hiddenLayer[i - 2].length).fill(0)
+            if(i === this.layers.length - 1) {
+                for(let neuron of this.outputLayer) {
+                    neuron.update(loss[j], lossNext)
+                    j++
+                }
+            } else {
+                for(let neuron of this.hiddenLayer[i - 1]) {
+                    neuron.update(loss[j], lossNext)
+                    j++
+                }
+            }
+            loss = lossNext
+        }
     }
 
     dump() {
@@ -100,5 +122,9 @@ class NeuralNetwork {
                 }
             }
         }
+    }
+
+    clone(network) {
+        this.load(network.dump())
     }
 }

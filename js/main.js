@@ -114,6 +114,7 @@ class Main {
             
             let factors
             for(let agent of Main.agents) {
+                if(!(agent instanceof DqnAiTankAgent)) continue
                 factors = agent.dump()
                 log('dump', agent.id, factors)
                 factors.name = 'result/' + manifest.time + '/' + agent.id + '.json'
@@ -127,9 +128,9 @@ class Main {
         return new Promise(async (resolve, reject) => {
             let manifest = {'name': 'result/manifest.json'}
             manifest = await Main._send('php/load.php', JSON.stringify(manifest))
-            manifest = JSON.parse(manifest)
-            log('manifest', manifest)
             if(manifest){
+                manifest = JSON.parse(manifest)
+                log('manifest', manifest)
                 Main.load = true
                 Main.episode = manifest.episode
                 Main.time = manifest.time
@@ -218,17 +219,22 @@ class Main {
         Main.log = Config.DEBUG_LOG
         Main._toggleLog(false)
 
-        const nn = NeuralNetwork.new(3, 3, 1)
+        const nn = NeuralNetwork.new(3, 3, 3, 2)
         const input = [[1, 1, 1]]
-        const actualOutput = [0.8]
+        const targetOutput = [0.8]
         log('DEBUG')
         let out, loss
-        for(let i = 0; i < 5000; i++) {
+        let nndump0 = JSON.stringify(nn.dump())
+        log('nn0', nndump0)
+        for(let i = 0; i < 5; i++) {
             nn.input(input[0])
             out = nn.output()
-            loss = actualOutput[0] - out
-            nn.updateWeight(input[0], 0, loss)
+            log('out', out)
+            loss = targetOutput[0] - out[0]
+            nn.updateWeight([loss, loss])
         }
+        let nndump = JSON.stringify(nn.dump())
+        log('nn', nndump)
         const nnDump = NeuralNetwork.new()
         const factors = nn.dump()
         nnDump.load(factors)

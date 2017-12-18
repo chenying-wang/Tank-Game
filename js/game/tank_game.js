@@ -18,7 +18,9 @@ class TankGame extends PixelGame {
             let initX = Math.floor(Util.random(Config.GRID_X))
             let initY = Math.floor(Util.random(Config.GRID_Y))
             let v = Vector.new(initX, initY)
-            let tank = Tank.new(this, v, this.tankId[i])
+            let tank
+            if(Config.AGENT_TYPE[i] === 'dqn') tank = AllyTank.new(this, v, this.tankId[i])
+            else tank = EnemyTank.new(this, v, this.tankId[i])
 
             tank.speed.setLength(Config.TANK_SPEED)
             this.tanks.push(tank)
@@ -28,7 +30,7 @@ class TankGame extends PixelGame {
     _run() {
         super._run()
 
-        if (this.tanks.length === 1) {
+        if (this.tanks.length <= 1) {
             this._over()
             return
         }

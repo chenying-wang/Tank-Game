@@ -84,6 +84,7 @@ class Tank extends Entity {
 
     clear() {
         this.agent.die = true
+        this.agent.reward += Config.REWARD_DIE
         this.game.deleteTank(this)
     }
 }

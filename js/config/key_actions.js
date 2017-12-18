@@ -16,7 +16,7 @@ const KeyActions = {
     },
 
     KeyS: {
-        discridescriptionption: 'Move down',
+        description: 'Move down',
         keydown: tankGame => {
             tankGame.player.move(Tank.DOWN)
         }

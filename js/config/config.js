@@ -19,16 +19,18 @@ const Config = {
     GAME_UPDATE_RATE: 50,
     GAME_SPEED: 5,
     FPS: 30,
-    GAME_TIMEOUT: 20 * 1000,
+    GAME_TIMEOUT: 60 * 1000,
     DEFAULT_CONTROL_MODE: 'mouse',
     PLAYER_ID: 'player',
-    DUMP_FREQUENCY: 10,
+    DUMP_FREQUENCY: 1000,
 
     // agent
     // AGENT_ID: ['bot0', 'bot1', 'bot2', 'bot3', 'bot4', 'bot5', 'bot6', 'bot7', 'bot8', 'bot9'],
     // AGENT_TYPE: ['dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn', 'dqn'],
-    AGENT_ID: ['bot0', 'bot1', 'bot2'],
-    AGENT_TYPE: ['dqn', 'dqn', 'dqn'],
+    // AGENT_ID: ['bot0', 'bot1', 'bot2'],
+    // AGENT_TYPE: ['dqn', 'dqn', 'dqn'],
+    AGENT_ID: ['bot0', 'bot1'],
+    AGENT_TYPE: ['dqn', 'simple'],
 
     // canvas
     CANVAS_ID: 'game',
@@ -46,6 +48,8 @@ const Config = {
     TANK_HEIGHT: 11,
     TANK_SPEED: 20,
     TANK_COLOR: 'rgb(255, 255, 255)',
+    ALLY_COLOR: 'rgb(0, 255, 0)',
+    ENEMY_COLOR: 'rgb(255, 0, 0)',
     TANK_HP: 10,
     TANK_COOLDOWN: 1,
 
@@ -65,7 +69,7 @@ const Config = {
     HP_COLOR_REMAIN: 'rgb(0, 255, 0)',
 
     // reward
-    REWARD_ATTACK: 1,
+    REWARD_ATTACK: 2,
     REWARD_DAMAGE: -1,
     REWARD_DIE: -15
 }
